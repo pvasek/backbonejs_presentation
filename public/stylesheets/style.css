@@ -1,0 +1,53 @@
+body {
+    background-color: #eee;
+    font-family: Armata;
+}
+
+.center {
+    text-align: center;
+}
+
+h1 {
+    color: #db322d;
+    font-size: 50px;
+    margin-top: 30px;
+    line-height: 70px;
+}
+
+h1.main {
+    margin-top: 150px;
+    font-size: 120px;
+    line-height: 160px;
+}
+
+h2 {
+    font-size: 40px;
+    line-height: 60px;
+}
+
+.slide {
+    background-color: white;
+    border: 1px solid #dedede;
+    margin: 20px;
+    padding: 40px 180px 40px 180px;
+    min-height: 600px;
+    height: 300px;
+
+    /*-webkit-transform: perspective( 1000px ) rotateY( -85deg );*/
+    /*-webkit-transition-duration: 0.5s;*/
+}
+
+.slide > table {
+    font-size: 30px;
+    line-height: 60px;
+    min-width: 600px;
+}
+
+ul {
+}
+
+li {
+    font-size: 30px;
+    line-height: 50px;
+    margin-bottom: 20px;
+}
