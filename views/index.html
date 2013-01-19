@@ -51,6 +51,24 @@
 </div>
 
 <div class="slide">
+    <div class="title-inline">
+        <h1>Events</h1>
+        <h3>Observer design pattern</h3>
+    </div>
+    <pre>
+var subject = {};
+_.extend(subject, Backbone.Events);
+subject.on("event1", function(msg) {
+    $('.observer1').html(msg);
+});
+subject.on("event1", function(msg) {
+    $('.observer2').html(msg);
+});
+observer.trigger("event1", "an event");
+    </pre>
+</div>
+
+<div class="slide">
     <a class="btn" data-action="get">Get</a>
     <a class="btn" data-action="post">Post</a>
     <a class="btn" data-action="put">Put</a>

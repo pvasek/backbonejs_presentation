@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "backbonejs_presentation",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "express": "3.0.6",
     "jade": "*",
     "jshtml": "*",
-    "hbs": "*"
+    "hbs": "*",
+    "less": "*"
   }
 }
