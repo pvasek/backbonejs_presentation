@@ -54,7 +54,8 @@ app.configure('development', function () {
 });
 
 
-app.get('/', routes.index);
+app.get('/slides', routes.index);
+app.get('/slides/:slide', routes.index);
 app.resource('/project', project);
 
 

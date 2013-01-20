@@ -857,9 +857,11 @@ h1{color:#db322d;font-size:50px;margin-top:30px;line-height:70px;}
 h1.main{margin-top:150px;font-size:120px;line-height:160px;}
 h2{font-size:40px;line-height:60px;}
 pre{font-size:20px;line-height:35px;}
-.slide{background-color:white;border:1px solid #dedede;margin:20px;padding:40px 180px 40px 180px;min-height:600px;height:300px;}
+.slide{background-color:white;border:1px solid #dedede;margin:10px;padding:40px 150px 40px 150px;min-height:600px;height:300px;}
 .slide>table{font-size:30px;line-height:60px;min-width:600px;}
 li{font-size:30px;line-height:50px;margin-bottom:20px;}
+.navigator{position:fixed;top:20px;right:40px;background-color:#efefef;border:1px solid #aaa;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;cursor:pointer;opacity:0;}.navigator:hover{opacity:0.8;}
+.navigator a{display:inline-block;padding:10px 30px;}
 .title-inline{*zoom:1;}.title-inline:before,.title-inline:after{display:table;content:"";line-height:0;}
 .title-inline:after{clear:both;}
 .title-inline>*{float:left;margin-top:20px;margin-right:40px;line-height:80px;vertical-align:bottom;}
