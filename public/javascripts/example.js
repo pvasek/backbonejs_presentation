@@ -4,7 +4,7 @@ var SlidesView = Backbone.View.extend({
     initialize: function() {
         this.app = this.options.app;
         this.$slides = $('.slide');
-        this.showSlide(0);
+        this.showSlide(1);
     },
 
     events: {
@@ -27,15 +27,18 @@ var SlidesView = Backbone.View.extend({
     },
 
     showSlide: function(slideNumber) {
-        if (slideNumber > this.$slides.length) {
-            slideNumber = 1;
-        } else if (slideNumber < 1) {
-            slideNumber = this.$slides.length;
-        }
-
-        this.slideNumber = slideNumber;
+        this.slideNumber = this.checkSlideNumber(slideNumber);
         this.$slides.hide();
-        $(this.$slides.get(slideNumber-1)).show();
+        $(this.$slides.get(this.slideNumber-1)).show();
+    },
+
+    checkSlideNumber: function(slideNumber) {
+        if (slideNumber > this.$slides.length) {
+            return 1;
+        } else if (slideNumber < 1) {
+            return this.$slides.length;
+        }
+        return slideNumber;
     },
 
     keyDown: function(e) {
@@ -54,11 +57,17 @@ var SlidesView = Backbone.View.extend({
 var App = Backbone.Router.extend({
 
     routes: {
-        ":slide": "goTo"
+        ":slide": "showSlide",
+        "": "showSlide"
     },
 
-    goTo: function(slide) {
-        this.mainView.showSlide(parseInt(slide, 10));
+    showSlide: function(slide) {
+        if (!slide) {
+            slide = 1;
+        } else {
+            slide = parseInt(slide, 10);
+        }
+        this.mainView.showSlide(slide);
     },
 
     initialize: function() {
@@ -76,23 +85,56 @@ function example(selector, fun) {
     })
 }
 
-function moveCodeInPlace() {
+function buildCodeMap(text, codeMap) {
+    text = text.trim();
+    if (text === "") {
+        return codeMap;
+    }
+    var lines = text.split(/\r?\n/);
+    var ignoring = false;
+    var started = false;
+    var buffer = "";
+    var codeName = "";
+    for (var i = 0; i < lines.length; i++) {
+        var s = lines[i];
+        var trimmed = s.trim();
+        if (trimmed.indexOf('//--start') == 0) {
+            codeName = trimmed.replace('//--start', '').trim();
+            buffer = "";
+            started = true;
+            ignoring = false;
+        } else if (trimmed.indexOf('//--end') == 0) {
+            started = false;
+            codeMap[codeName] = buffer;
+        } else if (trimmed.indexOf('//--!') == 0) {
+            ignoring = !ignoring;
+        } else if (started && !ignoring) {
+            buffer += s + '\n';
+        }
+    }
+    return codeMap;
+}
+
+function moveCodeInPlace(codeMap) {
     $('[data-code]').each(function(){
         var $this = $(this);
-        var code = $($this.data('code')).html();
-        var start = code.indexOf('//--start') + 10;
-        var end = code.indexOf('//--end');
-        if (start > -1 && end > -1) {
-            code = code.substring(start, end);
+        var codeName = $this.data('code');
+        var code = codeMap[codeName];
+        if (code) {
+            $this.html(code);
+        } else {
+            $this.html('Code for ' + codeName + ' not found');
         }
-        code = code.trimRight();
-        $this.html(code);
     });
 }
 
 var app = null;
 
 $(document).ready(function(){
-    moveCodeInPlace();
+    var codeMap = {};
+    $("script").each(function(){
+        buildCodeMap($(this).html(), codeMap);
+    });
+    moveCodeInPlace(codeMap);
     app = new App();
 });
