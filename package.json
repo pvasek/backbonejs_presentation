@@ -10,6 +10,7 @@
     "jade": "*",
     "jshtml": "*",
     "hbs": "*",
-    "less": "*"
+    "less": "*",
+    "bootstrap": "git+https://github.com/documentcloud/underscore.git"
   }
 }

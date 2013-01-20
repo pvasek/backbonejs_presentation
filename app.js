@@ -4,13 +4,27 @@
 
 var express = require('express')
     , routes = require('./routes')
-    , user = require('./routes/user')
+    , project = require('./routes/project')
     , http = require('http')
     , path = require('path')
     , lessMiddleware = require('less-middleware')
     , hbs = require('hbs');
 
 var app = express();
+
+app.resource = function(path, obj) {
+    this.get(path, obj.getList);
+    this.get(path + '/:id', function(req, res){
+        obj.get(req, res, parseInt(req.params.id, 10));
+    });
+    this.del(path + '/:id', function(req, res){
+        obj.delete(req, res, parseInt(req.params.id, 10));
+    });
+    this.put(path + '/:id', function(req, res){
+        obj.put(req, res, parseInt(req.params.id, 10));
+    });
+    this.post(path, obj.post);
+};
 
 app.configure(function () {
     app.set('port', process.env.PORT || 3000);
@@ -41,7 +55,8 @@ app.configure('development', function () {
 
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.resource('/project', project);
+
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));

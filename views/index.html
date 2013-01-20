@@ -50,23 +50,45 @@
     </ul>
 </div>
 
-<div class="slide">
+<div class="slide eventExample">
     <div class="title-inline">
         <h1>Events</h1>
-        <h3>Observer design pattern</h3>
+        <h3>Publish/Subscribe design pattern</h3>
     </div>
-    <pre>
-var subject = {};
-_.extend(subject, Backbone.Events);
-subject.on("event1", function(msg) {
-    $('.observer1').html(msg);
-});
-subject.on("event1", function(msg) {
-    $('.observer2').html(msg);
-});
-observer.trigger("event1", "an event");
+    <pre data-code="#eventExample" class="pull-left">
     </pre>
+    <div class="actions">
+        <a class="publisher btn">Publish</a>
+        <a class="subscriber1 btn">Subscriber1</a>
+        <a class="subscriber2 btn">Subscriber2</a>
+        <a class="clear-event-example btn btn-reset">Clear</a>
+    </div>
 </div>
+
+<script type="text/javascript" id="eventExample">
+example('.eventExample', function($) {
+    //--start
+    var broker = {};
+    _.extend(broker, Backbone.Events);
+    $('.publisher').click(function(){
+        var eventName = 'event1';
+        var eventParam1 = { content: 'anything' };
+        var eventParam2 = 10;
+        broker.trigger('event1', eventParam1, eventParam2);
+    });
+    broker.on('event1', function(msg) {
+        $('.subscriber1').html(msg.content);
+    });
+    broker.on('event1', function(msg, id) {
+        $('.subscriber2').html(id);
+    });
+    //--end
+    $('.clear-event-example').click(function(){
+        $('.subscriber1').html('Subscriber1');
+        $('.subscriber2').html('Subscriber2');
+    });
+});
+</script>
 
 <div class="slide">
     <a class="btn" data-action="get">Get</a>
