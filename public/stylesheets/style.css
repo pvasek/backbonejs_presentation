@@ -857,6 +857,7 @@ h1{color:#db322d;font-size:3em;margin-top:30px;line-height:normal;}
 h1.main{margin-top:150px;font-size:120px;line-height:160px;}
 h2{font-size:40px;line-height:60px;}
 pre{line-height:normal;font-size:1.2em;}
+p{margin-top:20px;margin-bottom:10px;}
 .slide{background-color:white;border:1px solid #dedede;margin:10px;padding:40px 150px 40px 150px;height:720px;}.slide>table{font-size:30px;line-height:60px;min-width:600px;}
 .slide ul{margin-top:30px;}
 .slide li{font-size:2em;line-height:normal;margin-bottom:30px;}

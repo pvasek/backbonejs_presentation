@@ -14,5 +14,5 @@ exports.index = function(req, res){
         hbs.registerPartial(pageName, fs.readFileSync(pagesDir + file, 'utf8'));
     });
 
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Backbone.js - Presentation' });
 };

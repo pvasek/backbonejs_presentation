@@ -117,8 +117,15 @@ example('.eventExample1', function($) {
         <h1>Events</h1>
         <h3>example2</h3>
     </div>
-    <pre data-code="events.example2" class="pull-left">
-    </pre>
+    <div class="pull-left">
+        <p>Global configuration:</p>
+        <pre data-code="events.example2.part1"></pre>
+        <p>Toolbar part:</p>
+        <pre data-code="events.example2.part2"></pre>
+        <p>Table part:</p>
+        <pre data-code="events.example2.part3"></pre>
+    </div>
+
     <div class="actions">
         <div class="navbar">
             <div class="navbar-inner">
@@ -146,26 +153,24 @@ example('.eventExample1', function($) {
 
 <script type="text/javascript">
 example('.eventExample2', function($) {
-    //--start events.example2
+    //--start events.example2.part1
     var globalEvents = {};
     _.extend(globalEvents, Backbone.Events);
+    //--end
 
-    // somewhere in the toolbar
+    //--start events.example2.part2
     globalEvents.on('selection:changed', function(count){
         $('.btn-delete').toggleClass('disabled', count == 0);
         $('.selected-count').html(count == 0 ? '' : count);
     });
+    //--end
 
-    //--!
     $('input').change(function(){
         var selectedCount = $(':checked').length;
-    //--!
-    // somewhere in the table after selection has changed
-    globalEvents.trigger('selection:changed', selectedCount);
-    //--!
+        //--start events.example2.part3
+        globalEvents.trigger('selection:changed', selectedCount);
+        //--end
     });
-    //--!
-//--end
 });
 </script>
 

@@ -95,10 +95,12 @@ function buildCodeMap(text, codeMap) {
     var started = false;
     var buffer = "";
     var codeName = "";
+    var spaces = "";
     for (var i = 0; i < lines.length; i++) {
         var s = lines[i];
         var trimmed = s.trim();
         if (trimmed.indexOf('//--start') == 0) {
+            spaces = s.slice(0, s.indexOf('//--start'));
             codeName = trimmed.replace('//--start', '').trim();
             buffer = "";
             started = true;
@@ -109,6 +111,9 @@ function buildCodeMap(text, codeMap) {
         } else if (trimmed.indexOf('//--!') == 0) {
             ignoring = !ignoring;
         } else if (started && !ignoring) {
+            if (s.indexOf(spaces) == 0) {
+                s = s.substring(spaces.length, s.length);
+            }
             buffer += s + '\n';
         }
     }
