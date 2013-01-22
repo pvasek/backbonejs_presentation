@@ -1,6 +1,6 @@
 <div class="navigator">
-    <a class="previous">&lt;</a>
-    <a class="next">&gt;</a>
+    <a class="previous"><i class="icon-arrow-left"></i></a>
+    <a class="next"><i class="icon-arrow-right"></i></a>
 </div>
 <div class="slide">
     <h1 class="main center">Backbone.js</h1>
@@ -59,7 +59,7 @@
     <!--<h2 class="center">Minimalistic library for single page apps</h2>-->
 </div>
 
-<div class="slide eventExample1">
+<div class="slide">
     <div class="title-inline">
         <h1>Events</h1>
         <h3>overview</h3>
@@ -69,6 +69,30 @@
         <li>Enables connect different parts of the page together</li>
         <li>The parts need to know only about the event object (broker)</li>
         <li>You can bind multiple events at once "event1 event2"</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>Events</h1>
+        <h3>Methods</h3>
+    </div>
+    <ul>
+        <li>On(event, callback, [context]) - subscribe to an event</li>
+        <li>Off([event], [callback], [context]) - unsubscribe from an event</li>
+        <li>trigger(event, [param1], [param2], ...) - triggers the an event</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>Events</h1>
+        <h3>Methods</h3>
+    </div>
+    <ul>
+        <li>Once(event, callback, [context]) - subscribe to only the first event</li>
+        <li>listenTo(other, event, callback) - object listening to an event</li>
+        <li>stopListening([other], [event], [callback]) - object stops listening to an event</li>
     </ul>
 </div>
 
@@ -88,28 +112,28 @@
 </div>
 
 <script type="text/javascript">
-example('.eventExample1', function($) {
-    //--start events.example1
-    var broker = {};
-    _.extend(broker, Backbone.Events);
+    example('.eventExample1', function($) {
+        //--start events.example1
+        var broker = {};
+        _.extend(broker, Backbone.Events);
 
-    $('.publisher1').click(function(){
-        broker.trigger('event1', "event1-param1", { id: 10 });
-    });
+        $('.publisher1').click(function(){
+            broker.trigger('event1', "event1-param1", { id: 10 });
+        });
 
-    $('.publisher2').click(function(){
-        broker.trigger('event2', "event2-param1");
-    });
+        $('.publisher2').click(function(){
+            broker.trigger('event2', "event2-param1");
+        });
 
-    broker.on('event1', function(id) {
-        $('.subscriber1').html(id);
-    });
+        broker.on('event1', function(id) {
+            $('.subscriber1').html(id);
+        });
 
-    broker.on('event1 event2', function(msg, id) {
-        $('.subscriber2').html(msg);
+        broker.on('event1 event2', function(msg, id) {
+            $('.subscriber2').html(msg);
+        });
+        //--end
     });
-    //--end
-});
 </script>
 
 <div class="slide slide-compact eventExample2">
@@ -152,26 +176,26 @@ example('.eventExample1', function($) {
 </div>
 
 <script type="text/javascript">
-example('.eventExample2', function($) {
-    //--start events.example2.part1
-    var globalEvents = {};
-    _.extend(globalEvents, Backbone.Events);
-    //--end
-
-    //--start events.example2.part2
-    globalEvents.on('selection:changed', function(count){
-        $('.btn-delete').toggleClass('disabled', count == 0);
-        $('.selected-count').html(count == 0 ? '' : count);
-    });
-    //--end
-
-    $('input').change(function(){
-        var selectedCount = $(':checked').length;
-        //--start events.example2.part3
-        globalEvents.trigger('selection:changed', selectedCount);
+    example('.eventExample2', function($) {
+        //--start events.example2.part1
+        var globalEvents = {};
+        _.extend(globalEvents, Backbone.Events);
         //--end
+
+        //--start events.example2.part2
+        globalEvents.on('selection:changed', function(count){
+            $('.btn-delete').toggleClass('disabled', count == 0);
+            $('.selected-count').html(count == 0 ? '' : count);
+        });
+        //--end
+
+        $('input').change(function(){
+            var selectedCount = $(':checked').length;
+            //--start events.example2.part3
+            globalEvents.trigger('selection:changed', selectedCount);
+            //--end
+        });
     });
-});
 </script>
 
 <div class="slide">

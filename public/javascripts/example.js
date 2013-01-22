@@ -4,6 +4,7 @@ var SlidesView = Backbone.View.extend({
     initialize: function() {
         this.app = this.options.app;
         this.$slides = $('.slide');
+        this.$navigator = $('.navigator');
         this.showSlide(1);
     },
 
@@ -30,6 +31,7 @@ var SlidesView = Backbone.View.extend({
         this.slideNumber = this.checkSlideNumber(slideNumber);
         this.$slides.hide();
         $(this.$slides.get(this.slideNumber-1)).show();
+        this.$navigator.toggleClass('first-page', slideNumber === 1);
     },
 
     checkSlideNumber: function(slideNumber) {

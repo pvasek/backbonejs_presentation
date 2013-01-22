@@ -67,22 +67,33 @@ p {
   padding: 15px 50px 15px 50px;
 }
 
+
 .navigator {
   position: fixed;
   top: 20px;
   right: 40px;
-  background-color: #efefef;
-  border: 1px solid #aaa;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
   .border-radius(5px);
   cursor: pointer;
   opacity: 0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 
+  &.first-page {
+    opacity: 1;
+  }
   &:hover {
-    opacity: 0.8;
+    opacity: 1;
   }
   a {
     display: inline-block;
     padding: 10px 30px;
+    text-decoration: none;
+    color: #555;
+    line-height: 3px;
   }
 }
 
