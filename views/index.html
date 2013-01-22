@@ -199,8 +199,45 @@
 </script>
 
 <div class="slide">
-    <a class="btn" data-action="get">Get</a>
-    <a class="btn" data-action="post">Post</a>
-    <a class="btn" data-action="put">Put</a>
-    aaa
+    <h1 class="main center">REST</h1>
+    <h2 class="center">Recapitulation</h2>
 </div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>REST</h1>
+    </div>
+    <ul>
+        <li>Representational state transfer</li>
+        <li>Old good HTTP 1.1</li>
+        <li>Verbs: GET, POST, PUT, DELETE</li>
+    </ul>
+</div>
+
+<div class="slide rest-example">
+    <div class="pull-left">
+        <textarea class="rest-text" cols="80" rows="30"></textarea>
+    </div>
+    <div class="actions">
+        <a class="btn get">Get</a>
+        <a class="btn post">Post</a>
+        <a class="btn put">Put</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+example('.rest-example', function($){
+    var $textarea = $('textarea');
+    $('.get').on('click', function(){
+        jQuery.ajax({url: '/project/1'})
+            .done(function(data){
+                $textarea.val(JSON.stringify(data));
+            });
+    });
+    $('.put').on('click', function(){
+        jQuery.ajax({url: '/project/1', data: $textarea.val()})
+            .done(function(data){
+            });
+    });
+});
+</script>
