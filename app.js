@@ -4,7 +4,7 @@
 
 var express = require('express')
     , routes = require('./routes')
-    , team = require('./routes/team')
+    , project = require('./routes/project')
     , http = require('http')
     , path = require('path')
     , lessMiddleware = require('less-middleware')
@@ -56,7 +56,7 @@ app.configure('development', function () {
 
 app.get('/slides', routes.index);
 app.get('/slides/:slide', routes.index);
-app.resource('/team', team);
+app.resource('/project', project);
 
 
 http.createServer(app).listen(app.get('port'), function () {

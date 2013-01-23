@@ -225,10 +225,10 @@
                     placeholder="Try to get some teams -&gt;"></textarea>
         </div>
         <div class="actions">
-            <a class="btn get">GET /team</a>
-            <a class="btn get1">GET /team/1</a>
-            <a class="btn put1">PUT /team/1</a>
-            <a class="btn post">POST /team</a>
+            <a class="btn get">GET /project</a>
+            <a class="btn get1">GET /project/1</a>
+            <a class="btn put1">PUT /project/1</a>
+            <a class="btn post">POST /project</a>
             <a class="btn clear btn-reset">Clear</a>
         </div>
     </div>
@@ -239,7 +239,7 @@ example('.rest-example', function($){
     var $textarea = $('textarea');
     $('.get').on('click', function(){
         var opt = {
-            url: '/team',
+            url: '/project',
             type: 'get'
         };
         jQuery.ajax(opt)
@@ -249,7 +249,7 @@ example('.rest-example', function($){
     });
     $('.get1').on('click', function(){
         var opt = {
-            url: '/team/1',
+            url: '/project/1',
             type: 'get'
         };
         jQuery.ajax(opt)
@@ -259,7 +259,7 @@ example('.rest-example', function($){
     });
     $('.put1').on('click', function(){
         var opt = {
-            url: '/team/1',
+            url: '/project/1',
             type: 'put',
             contentType: 'application/json',
             data: $textarea.val()
@@ -268,7 +268,7 @@ example('.rest-example', function($){
     });
     $('.post').on('click', function(){
         var opt = {
-            url: '/team',
+            url: '/project',
             type: 'post',
             contentType: 'application/json',
             data: $textarea.val()
@@ -282,3 +282,12 @@ example('.rest-example', function($){
     });
 });
 </script>
+
+<div class="slide">
+    <h1>Model</h1>
+    <ul>
+        <li>Representation of your entity on the client</li>
+        <li>Knows how to save/load yourself</li>
+        <li>Uses events for notifying about changes</li>
+    </ul>
+</div>

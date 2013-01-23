@@ -6,11 +6,11 @@
 var _ = require("underscore");
 
 var data = [
-    {id: 1, name: "team1"},
-    {id: 2, name: "team2"},
-    {id: 3, name: "team3"},
-    {id: 4, name: "team4"},
-    {id: 5, name: "team5"}
+    {id: 1, name: "project1"},
+    {id: 2, name: "project2"},
+    {id: 3, name: "project3"},
+    {id: 4, name: "project4"},
+    {id: 5, name: "project5"}
 ];
 
 
@@ -39,7 +39,11 @@ exports.post = function(req, res){
         item.id = newId + 1;
         data.push(item);
     }
-    res.json(inputData);
+    if (inputData.length === 1 ) {
+        return res.json(inputData[0]);
+    } else {
+        res.json(inputData);
+    }
 };
 
 exports.delete = function(req, res) {
