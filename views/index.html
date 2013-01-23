@@ -215,13 +215,22 @@
 </div>
 
 <div class="slide rest-example">
-    <div class="pull-left">
-        <textarea class="rest-text" cols="80" rows="30"></textarea>
+    <div class="title-inline">
+        <h1>REST</h1>
+        <h3>example</h3>
     </div>
-    <div class="actions">
-        <a class="btn get">Get</a>
-        <a class="btn post">Post</a>
-        <a class="btn put">Put</a>
+    <div>
+        <div class="pull-left">
+            <textarea class="rest-text" cols="80" rows="20"
+                    placeholder="Try to get some teams -&gt;"></textarea>
+        </div>
+        <div class="actions">
+            <a class="btn get">GET /team</a>
+            <a class="btn get1">GET /team/1</a>
+            <a class="btn put1">PUT /team/1</a>
+            <a class="btn post">POST /team</a>
+            <a class="btn clear btn-reset">Clear</a>
+        </div>
     </div>
 </div>
 
@@ -229,15 +238,47 @@
 example('.rest-example', function($){
     var $textarea = $('textarea');
     $('.get').on('click', function(){
-        jQuery.ajax({url: '/project/1'})
+        var opt = {
+            url: '/team',
+            type: 'get'
+        };
+        jQuery.ajax(opt)
+                .done(function(data){
+                    $textarea.val(JSON.stringify(data));
+                });
+    });
+    $('.get1').on('click', function(){
+        var opt = {
+            url: '/team/1',
+            type: 'get'
+        };
+        jQuery.ajax(opt)
             .done(function(data){
                 $textarea.val(JSON.stringify(data));
             });
     });
-    $('.put').on('click', function(){
-        jQuery.ajax({url: '/project/1', data: $textarea.val()})
-            .done(function(data){
-            });
+    $('.put1').on('click', function(){
+        var opt = {
+            url: '/team/1',
+            type: 'put',
+            contentType: 'application/json',
+            data: $textarea.val()
+        };
+        jQuery.ajax(opt);
+    });
+    $('.post').on('click', function(){
+        var opt = {
+            url: '/team',
+            type: 'post',
+            contentType: 'application/json',
+            data: $textarea.val()
+        };
+        jQuery.ajax(opt).done(function(data){
+            $textarea.val(JSON.stringify(data));
+        });
+    });
+    $('.clear').on('click', function(){
+        $textarea.val('');
     });
 });
 </script>
