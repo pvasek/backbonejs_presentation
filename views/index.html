@@ -76,7 +76,7 @@
 <div class="slide">
     <div class="title-inline">
         <h1>Events</h1>
-        <h3>Methods</h3>
+        <h3>methods</h3>
     </div>
     <ul>
         <li>On(event, callback, [context]) - subscribe to an event</li>
@@ -102,16 +102,16 @@
 <div class="slide slide-compact eventExample1">
     <div class="title-inline">
         <h1>Events</h1>
-        <h3>example1</h3>
+        <h3>example 1</h3>
     </div>
-    <pre data-code="events.example1" class="pull-left">
-    </pre>
     <div class="actions">
         <a class="publisher1 btn">Publisher1 (event1)</a>
         <a class="publisher2 btn">Publisher2 (event2)</a>
         <a class="subscriber1 btn">Subscriber1 (event1)</a>
         <a class="subscriber2 btn">Subscriber2 (event1, event2)</a>
     </div>
+    <pre data-code="events.example1" class="left-side">
+    </pre>
 </div>
 
 <script type="text/javascript">
@@ -144,15 +144,6 @@
         <h1>Events</h1>
         <h3>example2</h3>
     </div>
-    <div class="pull-left">
-        <p>Global configuration:</p>
-        <pre data-code="events.example2.part1"></pre>
-        <p>Toolbar part:</p>
-        <pre data-code="events.example2.part2"></pre>
-        <p>Table part:</p>
-        <pre data-code="events.example2.part3"></pre>
-    </div>
-
     <div class="actions">
         <div class="navbar">
             <div class="navbar-inner">
@@ -161,20 +152,28 @@
         </div>
         <table class="table">
             <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Project1</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Project2</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Project3</td>
-                </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Project1</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Project2</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Project3</td>
+            </tr>
             </tbody>
         </table>
+    </div>
+    <div class="left-side">
+        <p>Global configuration:</p>
+        <pre data-code="events.example2.part1"></pre>
+        <p>Toolbar part:</p>
+        <pre data-code="events.example2.part2"></pre>
+        <p>Table part:</p>
+        <pre data-code="events.example2.part3"></pre>
     </div>
 </div>
 
@@ -230,8 +229,8 @@
             <a class="btn post">POST /project</a>
             <a class="btn clear btn-reset">Clear</a>
         </div>
-        <div class="pull-left">
-            <textarea class="rest-text" cols="80" rows="20" data-placeholder="examples"></textarea>
+        <div class="left-side">
+            <textarea class="rest-text" cols="80" rows="13" data-placeholder="examples"></textarea>
         </div>
     </div>
 </div>
@@ -300,7 +299,7 @@ example('.rest-example', function($){
     </ul>
 </div>
 
-<div class="slide model-example">
+<div class="slide slide-compact model-example">
     <div class="title-inline">
         <h1>Model</h1>
         <h3>example</h3>
@@ -317,8 +316,8 @@ example('.rest-example', function($){
             <a class="btn toJSON">project.toJSON()</a>
             <a class="btn clear btn-reset">Clear</a>
         </div>
-        <div class="pull-left">
-            <textarea class="target rest-text" rows="15" data-placeholder="examples"></textarea>
+        <div class="left-side">
+            <textarea class="target rest-text" rows="9" data-placeholder="examples"></textarea>
         </div>
     </div>
 </div>
@@ -329,9 +328,7 @@ example('.rest-example', function($){
         var Project = Backbone.Model.extend({
             urlRoot: '/project'
         });
-
         var project = new Project({id: 1});
-
         //--end
 
         var $code = $(".target");
