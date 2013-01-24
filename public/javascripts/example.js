@@ -139,8 +139,11 @@ var app = null;
 
 $(document).ready(function(){
     var codeMap = {};
-    $("script").each(function(){
+    $('script').each(function(){
         buildCodeMap($(this).html(), codeMap);
+    });
+    $('[data-placeholder=examples]').each(function(){
+        $(this).attr('placeholder', '<- Start with examples by clicking to the buttons');
     });
     moveCodeInPlace(codeMap);
     app = new App();

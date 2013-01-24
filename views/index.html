@@ -5,6 +5,7 @@
 <div class="slide">
     <h1 class="main center">Backbone.js</h1>
     <h2 class="center">Minimalistic library for single page apps</h2>
+    <h2 class="center">PREVIEW - work in progress :)</h2>
 </div>
 
 <div class="slide">
@@ -84,6 +85,7 @@
     </ul>
 </div>
 
+<!--
 <div class="slide">
     <div class="title-inline">
         <h1>Events</h1>
@@ -95,6 +97,7 @@
         <li>stopListening([other], [event], [callback]) - object stops listening to an event</li>
     </ul>
 </div>
+-->
 
 <div class="slide slide-compact eventExample1">
     <div class="title-inline">
@@ -220,16 +223,15 @@
         <h3>example</h3>
     </div>
     <div>
-        <div class="pull-left">
-            <textarea class="rest-text" cols="80" rows="20"
-                    placeholder="Try to get some teams -&gt;"></textarea>
-        </div>
         <div class="actions">
             <a class="btn get">GET /project</a>
             <a class="btn get1">GET /project/1</a>
             <a class="btn put1">PUT /project/1</a>
             <a class="btn post">POST /project</a>
             <a class="btn clear btn-reset">Clear</a>
+        </div>
+        <div class="pull-left">
+            <textarea class="rest-text" cols="80" rows="20" data-placeholder="examples"></textarea>
         </div>
     </div>
 </div>
@@ -287,7 +289,75 @@ example('.rest-example', function($){
     <h1>Model</h1>
     <ul>
         <li>Representation of your entity on the client</li>
-        <li>Knows how to save/load yourself</li>
+        <li>Knows how to save/load itself
+            <ul>
+                <li>Use Backbone.sync method</li>
+                <li>Default implementation uses REST</li>
+                <li>Can be replaced by anything you want</li>
+            </ul>
+        </li>
         <li>Uses events for notifying about changes</li>
     </ul>
 </div>
+
+<div class="slide model-example">
+    <div class="title-inline">
+        <h1>Model</h1>
+        <h3>example</h3>
+    </div>
+    <p>Model definition:</p>
+    <pre data-code="model.example1"></pre>
+    <p>Basic methods:</p>
+    <div>
+        <div class="actions">
+            <a class="btn fetch">project.fetch()</a>
+            <a class="btn save">project.save()</a>
+            <a class="btn set1">project.set('name', 'Project A')</a>
+            <a class="btn set2">project.set({name: 'Project B', title: 'B'})</a>
+            <a class="btn toJSON">project.toJSON()</a>
+            <a class="btn clear btn-reset">Clear</a>
+        </div>
+        <div class="pull-left">
+            <textarea class="target rest-text" rows="15" data-placeholder="examples"></textarea>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    example('.model-example', function($) {
+        //--start model.example1
+        var Project = Backbone.Model.extend({
+            urlRoot: '/project'
+        });
+
+        var project = new Project({id: 1});
+
+        //--end
+
+        var $code = $(".target");
+        $(".toJSON").click(function(){
+            $code.val(JSON.stringify(project.toJSON()));
+        });
+        $(".fetch").click(function(){
+            project.fetch().done(function(){
+                $code.val(JSON.stringify(project.toJSON()));
+            });
+        });
+        $(".save").click(function(){
+            project.save().done(function(){
+                $code.val(JSON.stringify(project.toJSON()));
+            });
+        });
+        $(".set1").click(function(){
+            project.set('name', 'Project A');
+            $code.val(JSON.stringify(project.toJSON()));
+        });
+        $(".set2").click(function(){
+            project.set({name: 'Project B', title: 'B'});
+            $code.val(JSON.stringify(project.toJSON()));
+        });
+        $(".clear").click(function(){
+            $code.val('');
+        });
+    });
+</script>

@@ -27,8 +27,9 @@ exports.getList = function(req, res) {
 
 exports.put = function(req, res, id) {
     data = _.filter(data, function(i) { return i.id != id; });
+    req.body.id = id;
     data.push(req.body);
-    res.json({status: 'ok'});
+    res.json({id: id});
 };
 
 exports.post = function(req, res){
