@@ -299,6 +299,22 @@ example('.rest-example', function($){
     </ul>
 </div>
 
+<div class="slide model-example">
+    <div class="title-inline">
+        <h1>Model</h1>
+        <h3>methods</h3>
+    </div>
+    <ul>
+        <li>Fetch - loads entity attributes from server</li>
+        <li>Save - save entity to the server</li>
+        <li>Save(attributes) - set attributes and save to the server</li>
+        <li>Get(property) - for getting property value</li>
+        <li>Set(property,value) - set property value</li>
+        <li>Set(attributes) - setting multiple properties</li>
+        <li>Your methods</li>
+    </ul>
+</div>
+
 <div class="slide slide-compact model-example">
     <div class="title-inline">
         <h1>Model</h1>
@@ -341,6 +357,7 @@ example('.rest-example', function($){
             });
         });
         $(".save").click(function(){
+            project.set(JSON.parse($code.val()));
             project.save().done(function(){
                 $code.val(JSON.stringify(project.toJSON()));
             });
