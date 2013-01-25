@@ -104,11 +104,12 @@
         <h1>Events</h1>
         <h3>example 1</h3>
     </div>
-    <div class="actions">
-        <a class="publisher1 btn">Publisher1 (event1)</a>
-        <a class="publisher2 btn">Publisher2 (event2)</a>
-        <a class="subscriber1 btn">Subscriber1 (event1)</a>
-        <a class="subscriber2 btn">Subscriber2 (event1, event2)</a>
+    <div class="left-side">
+        <table class="action table">
+            <tr><td><a href="#" class="publisher1">Publisher1 (event1)</a></td></tr>
+            <tr><td><a href="#" class="publisher2">Publisher2 (event2)</a></td></tr>
+        </table>
+        <textarea rows="15" class="log"></textarea>
     </div>
     <pre data-code="events.example1" class="left-side">
     </pre>
@@ -116,24 +117,28 @@
 
 <script type="text/javascript">
     example('.eventExample1', function($) {
+        var $log = $('.log');
+        function log(text) {
+            $log.val($log.val() + text + '\n');
+        }
         //--start events.example1
         var broker = {};
         _.extend(broker, Backbone.Events);
 
         $('.publisher1').click(function(){
-            broker.trigger('event1', "event1-param1", { id: 10 });
+            broker.trigger('event1',
+                    "event1-param1", 10);
         });
-
         $('.publisher2').click(function(){
             broker.trigger('event2', "event2-param1");
         });
-
-        broker.on('event1', function(id) {
-            $('.subscriber1').html(id);
+        broker.on('event1', function(p1, p2) {
+            log('subscriber1:');
+            log('   p1: ' + p1 + ', p2: ' + p2);
         });
-
-        broker.on('event1 event2', function(msg, id) {
-            $('.subscriber2').html(msg);
+        broker.on('event1 event2', function(p1, p2) {
+            log('subscriber2:');
+            log('   p1: ' + p1 + ', p2: ' + p2);
         });
         //--end
     });
@@ -222,13 +227,13 @@
         <h3>example</h3>
     </div>
     <div>
-        <div class="actions">
-            <a class="btn get">GET /project</a>
-            <a class="btn get1">GET /project/1</a>
-            <a class="btn put1">PUT /project/1</a>
-            <a class="btn post">POST /project</a>
-            <a class="btn clear btn-reset">Clear</a>
-        </div>
+        <table class="action table left-side">
+            <tr><td><a href="#" class="get">GET /project</a></td></tr>
+            <tr><td><a href="#" class="get1">GET /project/1</a></td></tr>
+            <tr><td><a href="#" class="put1">PUT /project/1</a></td></tr>
+            <tr><td><a href="#" class="post">POST /project</a></td></tr>
+            <tr><td><a href="#" class="clear">Clear</a></td></tr>
+        </table>
         <div class="left-side">
             <textarea class="rest-text" cols="80" rows="13" data-placeholder="examples"></textarea>
         </div>
@@ -296,6 +301,7 @@ example('.rest-example', function($){
             </ul>
         </li>
         <li>Uses events for notifying about changes</li>
+        <li>Has attributes object for storing attribute values, use toJSON() to get them</li>
     </ul>
 </div>
 
@@ -315,63 +321,109 @@ example('.rest-example', function($){
     </ul>
 </div>
 
+<div class="slide">
+    <div class="title-inline">
+        <h1>Model</h1>
+        <h3>example</h3>
+    </div>
+    <div>
+        <p>Model definition:</p>
+        <pre data-code="model.example1"></pre>
+    </div>
+</div>
+
 <div class="slide slide-compact model-example">
     <div class="title-inline">
         <h1>Model</h1>
         <h3>example</h3>
     </div>
-    <p>Model definition:</p>
-    <pre data-code="model.example1"></pre>
-    <p>Basic methods:</p>
     <div>
-        <div class="actions">
-            <a class="btn fetch">project.fetch()</a>
-            <a class="btn save">project.save()</a>
-            <a class="btn set1">project.set('name', 'Project A')</a>
-            <a class="btn set2">project.set({name: 'Project B', title: 'B'})</a>
-            <a class="btn toJSON">project.toJSON()</a>
-            <a class="btn clear btn-reset">Clear</a>
+        <div class="left-side">
+            <p>Example methods:</p>
+            <table class="action table">
+                <tr><td><a href="#" class="get">project.get('name')</a></td></tr>
+                <tr><td><a href="#" class="set1">project.set('name', 'Project A')</a></td></tr>
+                <tr><td><a href="#" class="set2">project.set({name: 'Project B'})</a></td></tr>
+                <tr><td><a href="#" class="fetch">project.fetch()</a></td></tr>
+                <tr><td><a href="#" class="save">project.save()</a></td></tr>
+                <tr><td><a href="#" class="clear">project.clear()</a></td></tr>
+                <tr><td><a href="#" class="output-clear">Clear Output</a></td></tr>
+            </table>
         </div>
         <div class="left-side">
-            <textarea class="target rest-text" rows="9" data-placeholder="examples"></textarea>
+            <p>Output:</p>
+            <textarea class="target rest-text" rows="8" data-placeholder="examples"></textarea>
+            <p>Event Log:</p>
+            <textarea class="log rest-text" rows="6" placeholder="Loging window"></textarea>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     example('.model-example', function($) {
+        var $code = $(".target");
+        var $log = $(".log");
+
+        function log(text) {
+            $log.val($log.val() + text + '\n');
+        }
+
         //--start model.example1
         var Project = Backbone.Model.extend({
             urlRoot: '/project'
         });
+
         var project = new Project({id: 1});
+        project.fetch();
+
+        project.on('all', function(event){
+            log(event);
+        });
         //--end
 
-        var $code = $(".target");
-        $(".toJSON").click(function(){
-            $code.val(JSON.stringify(project.toJSON()));
-        });
-        $(".fetch").click(function(){
+        $(".fetch").click(function(e){
+            e.preventDefault();
             project.fetch().done(function(){
                 $code.val(JSON.stringify(project.toJSON()));
             });
         });
-        $(".save").click(function(){
+        $(".save").click(function(e){
+            e.preventDefault();
             project.set(JSON.parse($code.val()));
             project.save().done(function(){
                 $code.val(JSON.stringify(project.toJSON()));
             });
         });
-        $(".set1").click(function(){
+        $(".set1").click(function(e){
+            e.preventDefault();
             project.set('name', 'Project A');
             $code.val(JSON.stringify(project.toJSON()));
         });
-        $(".set2").click(function(){
-            project.set({name: 'Project B', title: 'B'});
+        $(".set2").click(function(e){
+            e.preventDefault();
+            project.set({name: 'Project B'});
             $code.val(JSON.stringify(project.toJSON()));
         });
-        $(".clear").click(function(){
+        $(".get").click(function(e){
+            e.preventDefault();
+            $code.val(project.get('name'));
+        });
+        $(".clear").click(function(e){
+            e.preventDefault();
+            project.clear();
+            $code.val(JSON.stringify(project.toJSON()));
+        });
+        $(".output-clear").click(function(e){
+            e.preventDefault();
             $code.val('');
+            $log.val('');
         });
     });
 </script>
+
+<div class="slide">
+    <h1>Collection</h1>
+    <ul>
+        <li>Bootstraps your collections</li>
+    </ul>
+</div>
