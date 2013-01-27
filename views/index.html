@@ -310,14 +310,13 @@ example('.rest-example', function($){
     <h1>Model & Collection</h1>
     <ul>
         <li>Representation of entities and entity lists on the client</li>
-        <li>Simplifies loading and saving your entities from/to the server</li>
-        <li>Know how to load/save themself
+        <li>Load and save your entities from/to the server
             <ul>
                 <li>Use Backbone.sync method</li>
                 <li>Can be replaced by anything you want</li>
             </ul>
         </li>
-        <li>Extends from Backbone.Event to support notifications</li>
+        <li>Extend from Backbone.Event to support notifications</li>
     </ul>
 </div>
 
@@ -343,8 +342,8 @@ example('.rest-example', function($){
     <ul>
         <li>Has attributes object for storing attribute values</li>
         <li>That enables notifying about attribute changes</li>
-        <li>For retrieving full list of attributes use toJSON()</li>
         <li>Easy to find which attributes has been changed during the last change</li>
+        <li>For retrieving full list of attributes use toJSON()</li>
     </ul>
 </div>
 
@@ -388,7 +387,7 @@ example('.rest-example', function($){
                 <tr><td><a href="#" class="set2">project.set({name: 'Project B'})</a></td></tr>
                 <tr><td><a href="#" class="fetch server-call">project.fetch()</a></td></tr>
                 <tr><td><a href="#" class="save server-call">project.save()</a></td></tr>
-                <tr><td><a href="#" class="clear">project.clear()</a></td></tr>
+                <tr><td><a href="#" class="destroy server-call">project.destroy()</a></td></tr>
                 <tr><td><a href="#" class="output-clear">Clear Output</a></td></tr>
             </table>
         </div>
@@ -426,6 +425,8 @@ example('.rest-example', function($){
             e.preventDefault();
             project.fetch().done(function(){
                 $code.val(JSON.stringify(project.toJSON()));
+            }).fail(function(e){
+                $code.val(JSON.stringify(e));
             });
         });
         $(".save").click(function(e){
@@ -449,9 +450,9 @@ example('.rest-example', function($){
             e.preventDefault();
             $code.val(project.get('name'));
         });
-        $(".clear").click(function(e){
+        $(".destroy").click(function(e){
             e.preventDefault();
-            project.clear();
+            project.destroy();
             $code.val(JSON.stringify(project.toJSON()));
         });
         $(".output-clear").click(function(e){
@@ -507,6 +508,7 @@ example('.rest-example', function($){
                 <tr><td><a href="#" class="get-1">collection.get(1)</a></td></tr>
                 <tr><td><a href="#" class="fetch  server-call">collection.fetch()</a></td></tr>
                 <tr><td><a href="#" class="reset">collection.reset()</a></td></tr>
+                <tr><td><a href="#" class="project1-set">project1.set({name: 'New Name'})</a></td></tr>
                 <tr><td><a href="#" class="output-clear">Clear Output</a></td></tr>
             </table>
         </div>
@@ -543,13 +545,13 @@ example('.rest-example', function($){
         });
         //--end
 
-        $(".fetch").click(function(e){
+        $('.fetch').click(function(e){
             e.preventDefault();
             collection.fetch().done(function(){
                 $code.val(JSON.stringify(collection.toJSON()));
             });
         });
-        $(".get-1").click(function(e){
+        $('.get-1').click(function(e){
             e.preventDefault();
             var project1 = collection.get(1);
             if (project1) {
@@ -558,12 +560,22 @@ example('.rest-example', function($){
                 $code.val("not found");
             }
         });
-        $(".reset").click(function(e){
+        $('.project1-set').click(function(e){
+            e.preventDefault();
+            var project1 = collection.get(1);
+            project1.set({name: 'New Name'});
+            if (project1) {
+                $code.val(JSON.stringify(project1.toJSON()));
+            } else {
+                $code.val("not found");
+            }
+        });
+        $('.reset').click(function(e){
             e.preventDefault();
             collection.reset();
             $code.val(JSON.stringify(collection.toJSON()));
         });
-        $(".output-clear").click(function(e){
+        $('.output-clear').click(function(e){
             e.preventDefault();
             $code.val('');
             $log.val('');

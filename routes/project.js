@@ -18,6 +18,10 @@ exports.get = function(req, res, id) {
     var item = _.find(data, function(i) {
         return i.id === id;
     });
+    if (!item) {
+        res.status(404).send('Not found');
+        return;
+    }
     res.json(item);
 };
 
@@ -47,6 +51,7 @@ exports.post = function(req, res){
     }
 };
 
-exports.delete = function(req, res) {
-    data = _.without(data, function(i) { return i.id === id });
+exports.delete = function(req, res, id) {
+    data = _.filter(data, function(i) { return i.id !== id });
+    res.json(null);
 };
