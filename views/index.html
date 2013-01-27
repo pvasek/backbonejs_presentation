@@ -216,9 +216,26 @@
     </div>
     <ul>
         <li>Representational state transfer</li>
-        <li>Old good HTTP 1.1</li>
-        <li>Verbs: GET, POST, PUT, DELETE</li>
+        <li>Old good HTTP 1.1 and its verbs</li>
+        <li>User HTTP verbs to distinguish what to do</li>
     </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>REST</h1>
+        <h3>Verbs</h3>
+    </div>
+    <div>
+        <table class="table table-info">
+            <tr><th>Verb</th><th>Url</th><th>Description</th></tr>
+            <tr><td>GET</td><td>/resource</td><td>returns list of all resources</td></tr>
+            <tr><td>GET</td><td>/resource/id</td><td>returns the particular resource</td></tr>
+            <tr><td>POST</td><td>/resource</td><td>adds a new resource</td></tr>
+            <tr><td>PUT</td><td>/resources/id</td><td>updates an existing resource</td></tr>
+            <tr><td>DELETE</td><td>/resource/id</td><td>deletes an existing resource</td></tr>
+        </table>
+    </div>
 </div>
 
 <div class="slide rest-example">
@@ -228,10 +245,10 @@
     </div>
     <div>
         <table class="action table left-side">
-            <tr><td><a href="#" class="get">GET /project</a></td></tr>
-            <tr><td><a href="#" class="get1">GET /project/1</a></td></tr>
-            <tr><td><a href="#" class="put1">PUT /project/1</a></td></tr>
-            <tr><td><a href="#" class="post">POST /project</a></td></tr>
+            <tr><td><a href="#" class="get">GET /projects</a></td></tr>
+            <tr><td><a href="#" class="get1">GET /projects/1</a></td></tr>
+            <tr><td><a href="#" class="put1">PUT /projects/1</a></td></tr>
+            <tr><td><a href="#" class="post">POST /projects</a></td></tr>
             <tr><td><a href="#" class="clear">Clear</a></td></tr>
         </table>
         <div class="left-side">
@@ -245,7 +262,7 @@ example('.rest-example', function($){
     var $textarea = $('textarea');
     $('.get').on('click', function(){
         var opt = {
-            url: '/project',
+            url: '/projects',
             type: 'get'
         };
         jQuery.ajax(opt)
@@ -255,7 +272,7 @@ example('.rest-example', function($){
     });
     $('.get1').on('click', function(){
         var opt = {
-            url: '/project/1',
+            url: '/projects/1',
             type: 'get'
         };
         jQuery.ajax(opt)
@@ -265,7 +282,7 @@ example('.rest-example', function($){
     });
     $('.put1').on('click', function(){
         var opt = {
-            url: '/project/1',
+            url: '/projects/1',
             type: 'put',
             contentType: 'application/json',
             data: $textarea.val()
@@ -274,7 +291,7 @@ example('.rest-example', function($){
     });
     $('.post').on('click', function(){
         var opt = {
-            url: '/project',
+            url: '/projects',
             type: 'post',
             contentType: 'application/json',
             data: $textarea.val()
@@ -290,18 +307,44 @@ example('.rest-example', function($){
 </script>
 
 <div class="slide">
-    <h1>Model</h1>
+    <h1>Model & Collection</h1>
     <ul>
-        <li>Representation of your entity on the client</li>
-        <li>Knows how to save/load itself
+        <li>Representation of entities and entity lists on the client</li>
+        <li>Simplifies loading and saving your entities from/to the server</li>
+        <li>Know how to load/save themself
             <ul>
                 <li>Use Backbone.sync method</li>
-                <li>Default implementation uses REST</li>
                 <li>Can be replaced by anything you want</li>
             </ul>
         </li>
-        <li>Uses events for notifying about changes</li>
-        <li>Has attributes object for storing attribute values, use toJSON() to get them</li>
+        <li>Extends from Backbone.Event to support notifications</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>REST</h1>
+        <h3>in Backbone.js</h3>
+    </div>
+    <div>
+        <table class="table table-info">
+            <tr><th>Verb</th><th>Url</th><th>Backbone way</th></tr>
+            <tr><td>GET</td><td>/resource</td><td>collection.fetch()</td></tr>
+            <tr><td>GET</td><td>/resource/id</td><td>model.fetch()</td></tr>
+            <tr><td>POST</td><td>/resource</td><td>model.save()</td></tr>
+            <tr><td>PUT</td><td>/resources/id</td><td>model.save(), collection.create()</td></tr>
+            <tr><td>DELETE</td><td>/resource/id</td><td>model.destroy()</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>Model</h1>
+    <ul>
+        <li>Has attributes object for storing attribute values</li>
+        <li>That enables notifying about attribute changes</li>
+        <li>For retrieving full list of attributes use toJSON()</li>
+        <li>Easy to find which attributes has been changed during the last change</li>
     </ul>
 </div>
 
@@ -311,13 +354,12 @@ example('.rest-example', function($){
         <h3>methods</h3>
     </div>
     <ul>
-        <li>Fetch - loads entity attributes from server</li>
-        <li>Save - save entity to the server</li>
-        <li>Save(attributes) - set attributes and save to the server</li>
         <li>Get(property) - for getting property value</li>
         <li>Set(property,value) - set property value</li>
         <li>Set(attributes) - setting multiple properties</li>
-        <li>Your methods</li>
+        <li class="server-call">Fetch - loads entity attributes from server</li>
+        <li class="server-call">Save([attributes]) - set attributes and save to the server</li>
+        <li class="server-call">Destroy - delete entity from the server</li>
     </ul>
 </div>
 
@@ -344,8 +386,8 @@ example('.rest-example', function($){
                 <tr><td><a href="#" class="get">project.get('name')</a></td></tr>
                 <tr><td><a href="#" class="set1">project.set('name', 'Project A')</a></td></tr>
                 <tr><td><a href="#" class="set2">project.set({name: 'Project B'})</a></td></tr>
-                <tr><td><a href="#" class="fetch">project.fetch()</a></td></tr>
-                <tr><td><a href="#" class="save">project.save()</a></td></tr>
+                <tr><td><a href="#" class="fetch server-call">project.fetch()</a></td></tr>
+                <tr><td><a href="#" class="save server-call">project.save()</a></td></tr>
                 <tr><td><a href="#" class="clear">project.clear()</a></td></tr>
                 <tr><td><a href="#" class="output-clear">Clear Output</a></td></tr>
             </table>
@@ -370,11 +412,10 @@ example('.rest-example', function($){
 
         //--start model.example1
         var Project = Backbone.Model.extend({
-            urlRoot: '/project'
+            urlRoot: '/projects'
         });
 
         var project = new Project({id: 1});
-        project.fetch();
 
         project.on('all', function(event){
             log(event);
@@ -424,6 +465,108 @@ example('.rest-example', function($){
 <div class="slide">
     <h1>Collection</h1>
     <ul>
-        <li>Bootstraps your collections</li>
+        <li>Collections of your models</li>
+        <li>In most cases this is the root for your resource type.</li>
+        <li>Model's events are triggered for their collection as well.</li>
     </ul>
 </div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>Collection</h1>
+        <h3>methods</h3>
+    </div>
+    <ul>
+        <li>Add - add model to the collection</li>
+        <li>Remove - remove model from the collection</li>
+        <li class="server-call">Fetch - loads models from server</li>
+        <li class="server-call">Create - initialize model, add it to the collection and save it to the server</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>Collection</h1>
+        <h3>example</h3>
+    </div>
+    <div>
+        <p>Collection definition:</p>
+        <pre data-code="collection.example1"></pre>
+    </div>
+</div>
+
+<div class="slide slide-compact collection-example">
+    <div class="title-inline">
+        <h1>Collection</h1>
+        <h3>example</h3>
+    </div>
+    <div>
+        <div class="left-side">
+            <p>Example methods:</p>
+            <table class="action table">
+                <tr><td><a href="#" class="get-1">collection.get(1)</a></td></tr>
+                <tr><td><a href="#" class="fetch  server-call">collection.fetch()</a></td></tr>
+                <tr><td><a href="#" class="reset">collection.reset()</a></td></tr>
+                <tr><td><a href="#" class="output-clear">Clear Output</a></td></tr>
+            </table>
+        </div>
+        <div class="left-side">
+            <p>Output:</p>
+            <textarea class="target rest-text" rows="8" data-placeholder="examples"></textarea>
+            <p>Event Log:</p>
+            <textarea class="log rest-text" rows="6" placeholder="Loging window"></textarea>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    example('.collection-example', function($) {
+        var $code = $(".target");
+        var $log = $(".log");
+
+        function log(text) {
+            $log.val($log.val() + text + '\n');
+        }
+
+        //--start collection.example1
+        var Project = Backbone.Model.extend({});
+
+        var ProjectCollection = Backbone.Collection.extend({
+            url: '/projects',
+            model: Project
+        });
+
+        var collection = new ProjectCollection();
+
+        collection.on('all', function(event){
+            log(event);
+        });
+        //--end
+
+        $(".fetch").click(function(e){
+            e.preventDefault();
+            collection.fetch().done(function(){
+                $code.val(JSON.stringify(collection.toJSON()));
+            });
+        });
+        $(".get-1").click(function(e){
+            e.preventDefault();
+            var project1 = collection.get(1);
+            if (project1) {
+                $code.val(JSON.stringify(project1.toJSON()));
+            } else {
+                $code.val("not found");
+            }
+        });
+        $(".reset").click(function(e){
+            e.preventDefault();
+            collection.reset();
+            $code.val(JSON.stringify(collection.toJSON()));
+        });
+        $(".output-clear").click(function(e){
+            e.preventDefault();
+            $code.val('');
+            $log.val('');
+        });
+    });
+</script>
