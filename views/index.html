@@ -57,7 +57,6 @@
 
 <div class="slide">
     <h1 class="main center">Events</h1>
-    <!--<h2 class="center">Minimalistic library for single page apps</h2>-->
 </div>
 
 <div class="slide">
@@ -84,20 +83,6 @@
         <li>trigger(event, [param1], [param2], ...) - triggers the an event</li>
     </ul>
 </div>
-
-<!--
-<div class="slide">
-    <div class="title-inline">
-        <h1>Events</h1>
-        <h3>Methods</h3>
-    </div>
-    <ul>
-        <li>Once(event, callback, [context]) - subscribe to only the first event</li>
-        <li>listenTo(other, event, callback) - object listening to an event</li>
-        <li>stopListening([other], [event], [callback]) - object stops listening to an event</li>
-    </ul>
-</div>
--->
 
 <div class="slide slide-compact eventExample1">
     <div class="title-inline">
@@ -338,12 +323,18 @@ example('.rest-example', function($){
 </div>
 
 <div class="slide">
+    <h1 class="main center">Model</h1>
+</div>
+
+<div class="slide slide-compact">
     <h1>Model</h1>
     <ul>
         <li>Has attributes object for storing attribute values</li>
         <li>That enables notifying about attribute changes</li>
         <li>Easy to find which attributes has been changed during the last change</li>
         <li>For retrieving full list of attributes use toJSON()</li>
+        <li>Predefined validation method</li>
+        <li>Should be extended for your business methods</li>
     </ul>
 </div>
 
@@ -395,7 +386,7 @@ example('.rest-example', function($){
             <p>Output:</p>
             <textarea class="target rest-text" rows="8" data-placeholder="examples"></textarea>
             <p>Event Log:</p>
-            <textarea class="log rest-text" rows="6" placeholder="Loging window"></textarea>
+            <textarea class="log rest-text" rows="5" placeholder="Loging window"></textarea>
         </div>
     </div>
 </div>
@@ -462,6 +453,11 @@ example('.rest-example', function($){
         });
     });
 </script>
+
+<div class="slide">
+    <h1 class="main center">Collection</h1>
+</div>
+
 
 <div class="slide">
     <h1>Collection</h1>
@@ -582,3 +578,19 @@ example('.rest-example', function($){
         });
     });
 </script>
+
+<div class="slide">
+    <h1 class="main center">View</h1>
+</div>
+
+<div class="slide">
+    <h1>View</h1>
+    <ul>
+        <li>Encapsulate part of the page</li>
+        <li>Usually connected to collection or model</li>
+        <li>Knows its root DOM element</li>
+        <li>Supports declarative event binding</li>
+        <li>Can render its HTML, hookup to an existing one or combination of both</li>
+        <li>Nothing fancy, no data binding, ...</li>
+    </ul>
+</div>

@@ -858,7 +858,7 @@ h1.main{margin-top:150px;font-size:120px;line-height:160px;}
 h2{font-size:40px;line-height:60px;}
 pre{line-height:normal;font-size:1.2em;margin-left:10px;}
 p{margin-top:20px;margin-bottom:10px;}
-.slide{background-color:white;border:1px solid #dedede;margin:10px;padding:40px 150px 40px 150px;height:720px;}.slide>table{font-size:30px;line-height:60px;min-width:600px;}
+.slide{background-color:white;border:1px solid #dedede;margin:10px;padding:40px 150px 40px 150px;height:780px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}.slide>table{font-size:30px;line-height:60px;min-width:600px;}
 .slide>ul{margin-top:30px;}
 .slide>ul>li{font-size:40px;line-height:normal;margin-bottom:30px;}.slide>ul>li li{font-size:36px;line-height:normal;margin-bottom:10px;}
 .slide-compact{padding:15px 30px 15px 30px;}
