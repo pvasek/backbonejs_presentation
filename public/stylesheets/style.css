@@ -884,3 +884,7 @@ p{margin-top:20px;margin-bottom:10px;}
 .server-call:hover{color:#db4106;}
 .table.table-info{font-size:35px;}.table.table-info th{background-color:#eee;}
 .table.table-info td,.table.table-info th{padding:15px 20px;border:none;line-height:normal;}
+.view-frame1{margin:0 10px;padding:10px;border:1px solid #739aa7;background-color:#b0e9fa;}
+input[type=text]{margin:0;}
+.class-navigation:hover{color:#1e69b1;cursor:pointer;}
+.navigation-selected{background-color:yellow !important;}

@@ -130,9 +130,39 @@ function moveCodeInPlace(codeMap) {
         if (code) {
             $this.html(code);
         } else {
-            $this.html('Code for ' + codeName + ' not found');
+            $this.text('Code for ' + codeName + ' not found');
         }
     });
+}
+
+function classNavigation(text) {
+    //return text.replace(/class="([\w\s-]+)"/, '<span class="class-navigation" data-$&>$&</span>');
+    return text.replace(/&lt;.+class="([\w\s-]+)".*&gt;/, '<span class="class-navigation" data-nav="$1">$&</span>');
+}
+
+function getEncoded(html) {
+    var text = $('<div/>').text(html).html();
+    var lines = text.split(/\r?\n/);
+    var line = '';
+    var i = 0;
+    var firstNonWhite = 10000;
+    for (i = 0; i < lines.length; i++) {
+        line = lines[i];
+        if (line.trim() === ''){
+            continue;
+        }
+
+        var tmp = line.search(/\S/);
+        if (tmp < firstNonWhite) {
+            firstNonWhite = tmp;
+        }
+    }
+    var result = '';
+    for (i = 0; i < lines.length; i++) {
+        line = lines[i];
+        result += classNavigation(line.substring(firstNonWhite)) + '\n';
+    }
+    return result.trim();
 }
 
 var app = null;
@@ -142,9 +172,31 @@ $(document).ready(function(){
     $('script').each(function(){
         buildCodeMap($(this).html(), codeMap);
     });
+    $('.html-map').each(function(){
+        var $this = $(this);
+        codeMap[$this.data('name')] = getEncoded($this.html());
+    });
     $('[data-placeholder=examples]').each(function(){
         $(this).attr('placeholder', '<- Start with examples by clicking to the buttons');
     });
+
     moveCodeInPlace(codeMap);
+
+    $('.class-navigation').each(function(){
+        var $this = $(this);
+        var cssClass = $this.data('nav');
+        if (cssClass.indexOf(' ') > -1) {
+            cssClass = cssClass.split(' ')[0];
+        }
+        var $target = $this.closest('.slide').find('.' + cssClass);
+        $this.on('mouseenter', function(){
+            $target.addClass('navigation-selected');
+            console.log('enter');
+        });
+        $this.on('mouseleave', function(){
+            $target.removeClass('navigation-selected');
+            console.log('leave');
+        });
+    });
     app = new App();
 });
