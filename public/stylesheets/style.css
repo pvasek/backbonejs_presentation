@@ -890,3 +890,5 @@ input[type=text]{margin:0;}
 .class-navigation:hover{color:#1e69b1;cursor:pointer;}
 .navigation-selected{background-color:yellow !important;}
 .view-frame{margin-bottom:10px;}
+.table.table-projects{width:auto;}
+tr.selected{background-color:#feff82;}

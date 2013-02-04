@@ -658,7 +658,7 @@ example('.rest-example', function($){
 <div class="slide slide-compact view-example1">
     <div class="title-inline title-compact">
         <h1>View</h1>
-        <h3>example - hookup to existing HTML</h3>
+        <h3>example - hookups to existing HTML</h3>
     </div>
     <div>
         <div class="html-map view-frame" data-name="view.example1.html">
@@ -699,11 +699,12 @@ example('.rest-example', function($){
 <div class="slide slide-compact view-example2">
     <div class="title-inline title-compact">
         <h1>View</h1>
-        <h3>example - render its own HTML</h3>
+        <h3>example - renders its own HTML</h3>
     </div>
     <div>
         <div class="view-frame html-map" data-name="view.example2.view">
             <div class="view">
+                View
             </div>
         </div>
         <div>
@@ -718,9 +719,12 @@ example('.rest-example', function($){
 </div>
 
 <script type="text/handlebars" class="html-map" data-name="view.example2.handlebars" id="view1">
-<table class="table">
+<table class="table table-projects">
     {{#each this}}
-    <tr><td>{{name}}</td></tr>
+    <tr data-id="{{id}}" {{#if _checked}}class="selected"{{/if}}>
+        <td><input type="checkbox" {{#if _checked}}checked{{/if}}/></td>
+        <td>{{name}}</td>
+    </tr>
     {{/each}}
 </table>
 </script>
@@ -737,7 +741,9 @@ example('.rest-example', function($){
 
     //--start view.example2.code
     var View = Backbone.View.extend({
-
+        events: {
+            'change :checkbox': 'toggleSelection'
+        },
         initialize: function(){
             this.template = Handlebars.compile($('#view1').html());
             this.collection.on('change reset', this.render, this);
@@ -747,6 +753,12 @@ example('.rest-example', function($){
             var html = this.template(data);
             this.$el.html(html);
             return this;
+        },
+        toggleSelection: function(e){
+            var $input = $(e.target);
+            var id = $input.closest('tr').data('id');
+            var checked = $input.prop('checked');
+            this.collection.get(id).set({_checked: checked});
         }
     });
     var projects = new ProjectCollection();
