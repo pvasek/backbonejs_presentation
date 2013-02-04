@@ -191,11 +191,9 @@ $(document).ready(function(){
         var $target = $this.closest('.slide').find('.' + cssClass);
         $this.on('mouseenter', function(){
             $target.addClass('navigation-selected');
-            console.log('enter');
         });
         $this.on('mouseleave', function(){
             $target.removeClass('navigation-selected');
-            console.log('leave');
         });
     });
     app = new App();

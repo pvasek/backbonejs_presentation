@@ -78,9 +78,10 @@
         <h3>methods</h3>
     </div>
     <ul>
-        <li>On(event, callback, [context]) - subscribe to an event</li>
-        <li>Off([event], [callback], [context]) - unsubscribe from an event</li>
+        <li>on(event, callback, [context]) - subscribe to an event</li>
+        <li>off([event], [callback], [context]) - unsubscribe from an event</li>
         <li>trigger(event, [param1], [param2], ...) - triggers the an event</li>
+        <li>listenTo/stopListening similar to on/off but it is bound to listener</li>
     </ul>
 </div>
 
@@ -595,20 +596,57 @@ example('.rest-example', function($){
     </ul>
 </div>
 
-<div class="slide slide-compact view-example1">
+<div class="slide">
     <div class="title-inline">
+        <h1>View</h1>
+        <h3>properties</h3>
+    </div>
+    <ul>
+        <li><b>el</b> - element where the view is bound to, default value is empty div</li>
+        <li><b>$el</b> - the jQuery object for el</li>
+        <li><b>collection</b> - assigned collection</li>
+        <li><b>model</b> - assigned model</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>View</h1>
+        <h3>methods</h3>
+    </div>
+    <ul>
+        <li><b>initialize([options])</b> - it is called after view is created, can be used for custom parameter initilization</li>
+        <li><b>setElement(element)</b> - sets new element to el property and updated its jQuery representation ($el)</li>
+        <li><b>render()</b> - can render el content, should return view</li>
+        <li><b>remove()</b> - removes view element from DOM and stop listening to events</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <div class="title-inline">
+        <h1>View</h1>
+        <h3>events</h3>
+    </div>
+    <ul>
+        <li>events - object map where property names are event paths and values are method that should be called</li>
+
+    </ul>
+</div>
+
+<div class="slide slide-compact view-example1">
+    <div class="title-inline title-compact">
         <h1>View</h1>
         <h3>example</h3>
     </div>
     <div>
-        <div class="html-map" data-name="view.example1.html">
-            <div class="view-frame1 left-side">
+        <div class="html-map view-frame" data-name="view.example1.html">
+            <div class="view-frame1">
                 <button disabled class="delete">Delete</button>
                 <input type="text" placeholder="Search" class="search"/>
                 <button class="find">Find</button>
             </div>
         </div>
-        <div class="left-side">
+        <div>
             <pre data-code="view.example1.html"></pre>
             <pre data-code="view.example1"></pre>
         </div>
@@ -619,9 +657,19 @@ example('.rest-example', function($){
     example(".view-example1", function($){
         //--start view.example1
         var View = Backbone.View.extend({
-
+            events: {
+                "click button.find": "find"
+            },
+            initialize: function(options) {
+                // el, collection, model - are bind automatically
+                this.$searchText = this.$('input');
+            },
+            find: function() {
+                alert('find: ' + this.$searchText.val());
+            }
         });
 
+        var view = new View({el: $('.view-frame1')});
         //--end
     });
 </script>

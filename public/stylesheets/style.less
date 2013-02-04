@@ -44,7 +44,7 @@ p {
     border: 1px solid #dedede;
     margin: 10px;
     padding: 40px 150px 40px 150px;
-    height: 780px;
+    min-height: 780px;
 
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -122,6 +122,13 @@ p {
     margin-right: 40px;
     line-height: 80px;
     vertical-align: bottom;
+  }
+}
+
+.title-compact, .title-inline.title-compact {
+  h1, h2, h3 {
+    line-height: normal;
+    font-size: 30px;
   }
 }
 
@@ -231,4 +238,8 @@ input[type=text] {
 }
 .navigation-selected {
   background-color: yellow !important;
+}
+
+.view-frame {
+  margin-bottom: 10px;
 }
