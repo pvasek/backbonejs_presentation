@@ -31,7 +31,7 @@ app.configure(function () {
     app.set('views', __dirname + '/views');
     //app.set('view engine', 'jade');
     app.set('view engine', 'html');
-    app.engine('html', hbs.__express);
+    app.engine('html', require('ejs').__express);
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.bodyParser());

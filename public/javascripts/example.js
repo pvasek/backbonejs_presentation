@@ -128,7 +128,8 @@ function moveCodeInPlace(codeMap) {
         var codeName = $this.data('code');
         var code = codeMap[codeName];
         if (code) {
-            $this.html(code);
+            $this.html('<code class="javascript">' + code + '</code>');
+            hljs.highlightBlock($this[0]);
         } else {
             $this.text('Code for ' + codeName + ' not found');
         }

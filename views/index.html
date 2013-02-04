@@ -1,3 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <title>Backbone.js</title>
+    <link rel='stylesheet' href='/public/stylesheets/style.css'>
+    <link rel='stylesheet' href='/public/javascripts/highlight.js/styles/default.css'>
+    <link rel='stylesheet' href='/public/javascripts/highlight.js/styles/idea.css'>
+    <!--<link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>-->
+    <script type='text/javascript' src='/public/javascripts/jquery/jquery-1.9.0.min.js'></script>
+    <script type='text/javascript' src='/public/javascripts/underscore-min.js'></script>
+    <script type='text/javascript' src='/public/javascripts/backbone.js'></script>
+    <script type='text/javascript' src='/public/javascripts/bootstrap/bootstrap-dropdown.js'></script>
+    <script type='text/javascript' src='/public/javascripts/example.js'></script>
+    <script type='text/javascript' src='/public/javascripts/bootstrap/bootstrap-button.js'></script>
+    <script type='text/javascript' src='/public/javascripts/highlight.js/highlight.pack.js'></script>
+    <script type='text/javascript' src='/public/javascripts/handlebars.js'></script>
+</head>
+
+<body>
+
 <div class="navigator">
     <a class="previous"><i class="icon-arrow-left"></i></a>
     <a class="next"><i class="icon-arrow-right"></i></a>
@@ -617,7 +637,7 @@ example('.rest-example', function($){
     <ul>
         <li><b>initialize([options])</b> - it is called after view is created, can be used for custom parameter initilization</li>
         <li><b>setElement(element)</b> - sets new element to el property and updated its jQuery representation ($el)</li>
-        <li><b>render()</b> - can render el content, should return view</li>
+        <li><b>render()</b> - can render element's content, should return view</li>
         <li><b>remove()</b> - removes view element from DOM and stop listening to events</li>
     </ul>
 </div>
@@ -628,19 +648,21 @@ example('.rest-example', function($){
         <h3>events</h3>
     </div>
     <ul>
-        <li>events - object map where property names are event paths and values are method that should be called</li>
-
+        <li>Declarative event binding</li>
+        <li>events - object where property names are event paths and values are method that should be called</li>
+        <li>events: { 'click button.save': 'save' }</li>
+        <li>delegateEvents([events]) - bind to events, usually important only if you override render() method</li>
     </ul>
 </div>
 
 <div class="slide slide-compact view-example1">
     <div class="title-inline title-compact">
         <h1>View</h1>
-        <h3>example</h3>
+        <h3>example - hookup to existing HTML</h3>
     </div>
     <div>
         <div class="html-map view-frame" data-name="view.example1.html">
-            <div class="view-frame1">
+            <div class="view">
                 <button disabled class="delete">Delete</button>
                 <input type="text" placeholder="Search" class="search"/>
                 <button class="find">Find</button>
@@ -669,7 +691,76 @@ example('.rest-example', function($){
             }
         });
 
-        var view = new View({el: $('.view-frame1')});
+        var view = new View({el: $('.view')});
         //--end
     });
 </script>
+
+<div class="slide slide-compact view-example2">
+    <div class="title-inline title-compact">
+        <h1>View</h1>
+        <h3>example - render its own HTML</h3>
+    </div>
+    <div>
+        <div class="view-frame html-map" data-name="view.example2.view">
+            <div class="view">
+            </div>
+        </div>
+        <div>
+            HTML (<a href='#' class='fetch'>fetch projects</a>):
+            <pre data-code="view.example2.view"></pre>
+            Handlebars #view1:
+            <pre data-code="view.example2.handlebars"></pre>
+            View code:
+            <pre data-code="view.example2.code"></pre>
+        </div>
+    </div>
+</div>
+
+<script type="text/handlebars" class="html-map" data-name="view.example2.handlebars" id="view1">
+<table class="table">
+    {{#each this}}
+    <tr><td>{{name}}</td></tr>
+    {{/each}}
+</table>
+</script>
+
+<script type="text/javascript">
+    example(".view-example1", function(){
+
+    var Project = Backbone.Model.extend({});
+
+    var ProjectCollection = Backbone.Collection.extend({
+        url: '/projects',
+        model: Project
+    });
+
+    //--start view.example2.code
+    var View = Backbone.View.extend({
+
+        initialize: function(){
+            this.template = Handlebars.compile($('#view1').html());
+            this.collection.on('change reset', this.render, this);
+        },
+        render: function() {
+            var data = this.collection.toJSON();
+            var html = this.template(data);
+            this.$el.html(html);
+            return this;
+        }
+    });
+    var projects = new ProjectCollection();
+    var view = new View({el: $('.view-example2 .view'), collection: projects});
+    //--end
+
+    $('.view-example2 .fetch').on('click', function(e){
+        e.preventDefault();
+        projects.fetch();
+    });
+});
+</script>
+
+
+
+</body>
+</html>
