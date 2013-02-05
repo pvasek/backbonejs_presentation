@@ -26,7 +26,6 @@
 <div class="slide">
     <h1 class="main center">Backbone.js</h1>
     <h2 class="center">Minimalistic library for single page apps</h2>
-    <h2 class="center">PREVIEW - work in progress :)</h2>
 </div>
 
 <div class="slide">
@@ -39,31 +38,33 @@
     </ul>
 </div>
 
-<!--<div class="slide">-->
-    <!--<h1>Dependencies</h1>-->
-    <!--<ul>-->
-        <!--<li>Mandatory: underscore or Lo-Dash</li>-->
-        <!--<li>"Optional": jQuery or Zepto</li>-->
-    <!--</ul>-->
-<!--</div>-->
+<!--
+<div class="slide">
+    <h1>Dependencies</h1>
+    <ul>
+        <li>Mandatory: underscore or Lo-Dash</li>
+        <li>"Optional": jQuery or Zepto</li>
+    </ul>
+</div>
 
-<!--<div class="slide">-->
-    <!--<h1>Size</h1>-->
-    <!--<table>-->
-        <!--<tr>-->
-            <!--<td>Backbone.js</td>-->
-            <!--<td>6.3 kB</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-            <!--<td>Underscore.js</td>-->
-            <!--<td>4 kB</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-            <!--<td>Zepto</td>-->
-            <!--<td>8.4 kB</td>-->
-        <!--</tr>-->
-    <!--</table>-->
-<!--</div>-->
+<div class="slide">
+    <h1>Size</h1>
+    <table>
+        <tr>
+            <td>Backbone.js</td>
+            <td>6.3 kB</td>
+        </tr>
+        <tr>
+            <td>Underscore.js</td>
+            <td>4 kB</td>
+        </tr>
+        <tr>
+            <td>Zepto</td>
+            <td>8.4 kB</td>
+        </tr>
+    </table>
+</div>
+-->
 
 <div class="slide">
     <h1>The main parts</h1>
@@ -927,6 +928,8 @@ example('.rest-example', function($){
     <ul>
         <li>Enables permalinks for your app</li>
         <li>Uses history API (/page1) or fallback to hash fragments (#page1)</li>
+        <li>Router enables mapping routes to the router methods</li>
+        <li>You need to call Backbone.history.start() after all routes are set up</li>
     </ul>
 </div>
 
@@ -948,6 +951,71 @@ example('.rest-example', function($){
                 <pre data-code="router.example1.view"></pre>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="slide">
+    <h1 class="main center">Summary</h1>
+</div>
+
+<div class="slide">
+    <h1>Summary</h1>
+    <ul>
+        <li>
+            Model / Collections - your entities on the client with RESTful persistence,
+            uses events for change notification
+        </li>
+        <li>
+            View - your page components usually connected to model/collection
+        </li>
+        <li>Router / History - a way how to make your back/forward button working again</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Why it is working?</h1>
+    <ul>
+        <li>Split your application/page to smaller pieces => views.</li>
+        <li>Views could be isolated enough</li>
+        <li>Views can communicate through event system</li>
+        <li>Router manage the main navigation</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1 class="main center">Pros/Cons</h1>
+</div>
+
+<div class="slide">
+    <h1>Pros/Cons</h1>
+    <ul>
+        <li>+ Doesn't try to solve everything</li>
+        <li>+ No magic, easy to understand</li>
+        <li>+ RESTful persistence built in</li>
+        <li>+ views can do anything</li>
+        <li>- Doesn't try to solve everything</li>
+        <li>- view can contain non-view logic</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1 class="main center">Questions?</h1>
+</div>
+
+<div class="slide">
+    <h1>Resources</h1>
+    <div class="big-text">
+        <div>Docs: <a href="http://backbonejs.org/">http://backbonejs.org/</a></div>
+        <div>Book: <a href="http://addyosmani.github.com/backbone-fundamentals">addyosmani.github.com/backbone-fundamentals</a></div>
+        <div>Backbone patterns: <a href="http://ricostacruz.com/backbone-patterns/">ricostacruz.com/backbone-patterns/</a></div>
+    </div>
+</div>
+<div class="slide">
+    <h1>Pavel Vašek</h1>
+    <div class="big-text">
+        <div>pvasek@gmail.com</div>
+        <div>Src: <a href="https://github.com/pvasek/backbonejs_presentation">github.com/pvasek/backbonejs_presentation</a></div>
+        <div>Slides: <a href="http://backbonepresentation.azurewebsites.net/slides">backbonepresentation.azurewebsites.net/slides</a></div>
     </div>
 </div>
 
@@ -1011,13 +1079,6 @@ example('.rest-example', function($){
             ":slide": "showSlide",
             "": "showSlide"
         },
-        initialize: function() {
-            this.mainView = new SlidesView({el: $('body'), app: this});
-            Backbone.history.start({pushState: true, root: "/slides"});
-        },
-        navigateToPage: function(pageNumber) {
-            this.navigate("/" + pageNumber);
-        },
         showSlide: function(slide) {
             if (!slide) {
                 slide = 1;
@@ -1025,6 +1086,13 @@ example('.rest-example', function($){
                 slide = parseInt(slide, 10);
             }
             this.mainView.showSlide(slide);
+        },
+        initialize: function() {
+            this.mainView = new SlidesView({el: $('body'), app: this});
+            Backbone.history.start({pushState: true, root: "/slides"});
+        },
+        navigateToPage: function(pageNumber) {
+            this.navigate("/" + pageNumber);
         }
     });
     //--end
