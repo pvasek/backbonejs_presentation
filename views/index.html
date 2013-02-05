@@ -39,31 +39,31 @@
     </ul>
 </div>
 
-<div class="slide">
-    <h1>Dependencies</h1>
-    <ul>
-        <li>Mandatory: underscore or Lo-Dash</li>
-        <li>"Optional": jQuery or Zepto</li>
-    </ul>
-</div>
+<!--<div class="slide">-->
+    <!--<h1>Dependencies</h1>-->
+    <!--<ul>-->
+        <!--<li>Mandatory: underscore or Lo-Dash</li>-->
+        <!--<li>"Optional": jQuery or Zepto</li>-->
+    <!--</ul>-->
+<!--</div>-->
 
-<div class="slide">
-    <h1>Size</h1>
-    <table>
-        <tr>
-            <td>Backbone.js</td>
-            <td>6.3 kB</td>
-        </tr>
-        <tr>
-            <td>Underscore.js</td>
-            <td>4 kB</td>
-        </tr>
-        <tr>
-            <td>Zepto</td>
-            <td>8.4 kB</td>
-        </tr>
-    </table>
-</div>
+<!--<div class="slide">-->
+    <!--<h1>Size</h1>-->
+    <!--<table>-->
+        <!--<tr>-->
+            <!--<td>Backbone.js</td>-->
+            <!--<td>6.3 kB</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>Underscore.js</td>-->
+            <!--<td>4 kB</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>Zepto</td>-->
+            <!--<td>8.4 kB</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</div>-->
 
 <div class="slide">
     <h1>The main parts</h1>
@@ -71,8 +71,8 @@
         <li>Events</li>
         <li>Model</li>
         <li>Collection</li>
-        <li>Router</li>
-        <li>History</li>
+        <li>View</li>
+        <li>Router-History</li>
     </ul>
 </div>
 
@@ -99,8 +99,8 @@
         <h3>methods</h3>
     </div>
     <ul>
-        <li>on(event, callback, [context]) - subscribe to an event</li>
-        <li>off([event], [callback], [context]) - unsubscribe from an event</li>
+        <li>on(event, callback, [context]) - subscribes to an event</li>
+        <li>off([event], [callback], [context]) - unsubscribes from an event</li>
         <li>trigger(event, [param1], [param2], ...) - triggers the an event</li>
         <li>listenTo/stopListening similar to on/off but it is bound to listener</li>
     </ul>
@@ -129,15 +129,13 @@
             $log.val($log.val() + text + '\n');
         }
         //--start events.example1
-        var broker = {};
-        _.extend(broker, Backbone.Events);
+        var broker = _.extend({}, Backbone.Events);
 
         $('.publisher1').click(function(){
-            broker.trigger('event1',
-                    "event1-param1", 10);
+            broker.trigger('event1', "A", 10);
         });
         $('.publisher2').click(function(){
-            broker.trigger('event2', "event2-param1");
+            broker.trigger('event2', "B");
         });
         broker.on('event1', function(p1, p2) {
             log('subscriber1:');
@@ -192,8 +190,7 @@
 <script type="text/javascript">
     example('.eventExample2', function($) {
         //--start events.example2.part1
-        var globalEvents = {};
-        _.extend(globalEvents, Backbone.Events);
+        var globalEvents = _.extend({}, Backbone.Events);
         //--end
 
         //--start events.example2.part2
@@ -223,8 +220,14 @@
     </div>
     <ul>
         <li>Representational state transfer</li>
-        <li>Old good HTTP 1.1 and its verbs</li>
-        <li>User HTTP verbs to distinguish what to do</li>
+        <li>Use HTTP verbs to distinguish what to do
+            <ul>
+                <li>GET</li>
+                <li>POST</li>
+                <li>PUT</li>
+                <li>DELETE</li>
+            </ul>
+        </li>
     </ul>
 </div>
 
@@ -919,5 +922,116 @@ example('.rest-example', function($){
     <h1 class="main center">Router-History</h1>
 </div>
 
+<div class="slide">
+    <h1>Router - History</h1>
+    <ul>
+        <li>Enables permalinks for your app</li>
+        <li>Uses history API (/page1) or fallback to hash fragments (#page1)</li>
+    </ul>
+</div>
+
+<div class="slide slide-compact router-example1">
+    <div class="title-inline title-compact">
+        <h1>Router - History</h1>
+        <h3>example</h3>
+    </div>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#router_example1_app" data-toggle="tab">Application</a></li>
+            <li><a href="#router_example1_view" data-toggle="tab">View</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="router_example1_app">
+                <pre data-code="router.example1.app"></pre>
+            </div>
+            <div class="tab-pane" id="router_example1_view">
+                <pre data-code="router.example1.view"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //--start router.example1.view
+    var SlidesView = Backbone.View.extend({
+        initialize: function() {
+            this.app = this.options.app;
+            this.$slides = $('.slide');
+            this.$navigator = $('.navigator');
+            this.showSlide(1);
+        },
+        events: {
+            'click .next': 'nextSlide',
+            'click .previous': 'previousSlide',
+            'keydown': 'keyDown'
+        },
+        nextSlide: function(){
+            this.navigateToSlide(this.slideNumber+1);
+        },
+        previousSlide: function(){
+            this.navigateToSlide(this.slideNumber-1);
+        },
+        navigateToSlide: function(slideNumber) {
+            this.showSlide(slideNumber);
+            this.app.navigateToPage(this.slideNumber);
+        },
+        // other methods...
+        //--!
+        showSlide: function(slideNumber) {
+            this.slideNumber = this.checkSlideNumber(slideNumber);
+            this.$slides.hide();
+            $(this.$slides.get(this.slideNumber-1)).show();
+            this.$navigator.toggleClass('first-page', slideNumber === 1);
+        },
+        checkSlideNumber: function(slideNumber) {
+            if (slideNumber > this.$slides.length) {
+                return 1;
+            } else if (slideNumber < 1) {
+                return this.$slides.length;
+            }
+            return slideNumber;
+        },
+        keyDown: function(e) {
+            if (e.metaKey) {
+                if (e.keyCode === 40) {
+                    e.preventDefault();
+                    this.nextSlide();
+                } else if (e.keyCode === 38) {
+                    e.preventDefault();
+                    this.previousSlide();
+                }
+            }
+        }
+        //--!
+    });
+    //--end
+    //--start router.example1.app
+    var App = Backbone.Router.extend({
+        routes: {
+            ":slide": "showSlide",
+            "": "showSlide"
+        },
+        initialize: function() {
+            this.mainView = new SlidesView({el: $('body'), app: this});
+            Backbone.history.start({pushState: true, root: "/slides"});
+        },
+        navigateToPage: function(pageNumber) {
+            this.navigate("/" + pageNumber);
+        },
+        showSlide: function(slide) {
+            if (!slide) {
+                slide = 1;
+            } else {
+                slide = parseInt(slide, 10);
+            }
+            this.mainView.showSlide(slide);
+        }
+    });
+    //--end
+
+    $(document).ready(function(){
+        var app = new App();
+    });
+</script>
 </body>
 </html>

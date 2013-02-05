@@ -55,7 +55,7 @@ app.configure('development', function () {
 
 
 app.get('/slides', routes.index);
-app.get('/slides/:slide', routes.index);
+app.get(/\/slides\/.*/, routes.index);
 app.resource('/projects', project);
 
 

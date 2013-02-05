@@ -1,4 +1,4 @@
-
+/*
 var SlidesView = Backbone.View.extend({
 
     initialize: function() {
@@ -78,6 +78,7 @@ var App = Backbone.Router.extend({
     }
 
 });
+*/
 
 function example(selector, fun) {
     $(document).ready(function(){
@@ -166,8 +167,6 @@ function getEncoded(html) {
     return result.trim();
 }
 
-var app = null;
-
 $(document).ready(function(){
     var codeMap = {};
     $('script').each(function(){
@@ -197,5 +196,5 @@ $(document).ready(function(){
             $target.removeClass('navigation-selected');
         });
     });
-    app = new App();
+    //var app = new App();
 });
