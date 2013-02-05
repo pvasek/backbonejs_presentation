@@ -12,6 +12,7 @@
     <script type='text/javascript' src='/public/javascripts/bootstrap/bootstrap-dropdown.js'></script>
     <script type='text/javascript' src='/public/javascripts/example.js'></script>
     <script type='text/javascript' src='/public/javascripts/bootstrap/bootstrap-button.js'></script>
+    <script type='text/javascript' src='/public/javascripts/bootstrap/bootstrap-tab.js'></script>
     <script type='text/javascript' src='/public/javascripts/highlight.js/highlight.pack.js'></script>
     <script type='text/javascript' src='/public/javascripts/handlebars.js'></script>
 </head>
@@ -664,13 +665,23 @@ example('.rest-example', function($){
         <div class="html-map view-frame" data-name="view.example1.html">
             <div class="view">
                 <button disabled class="delete">Delete</button>
-                <input type="text" placeholder="Search" class="search"/>
-                <button class="find">Find</button>
+                <input type="text" placeholder="Enter a name" class="name"/>
+                <button class="add">Add New</button>
             </div>
         </div>
         <div>
-            <pre data-code="view.example1.html"></pre>
-            <pre data-code="view.example1"></pre>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#view_example1_html" data-toggle="tab">HTML</a></li>
+                <li><a href="#view_example1" data-toggle="tab">Code</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="view_example1_html">
+                    <pre data-code="view.example1.html"></pre>
+                </div>
+                <div class="tab-pane" id="view_example1">
+                    <pre data-code="view.example1"></pre>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -680,14 +691,14 @@ example('.rest-example', function($){
         //--start view.example1
         var View = Backbone.View.extend({
             events: {
-                "click button.find": "find"
+                "click button.add": "add"
             },
             initialize: function(options) {
                 // el, collection, model - are bind automatically
-                this.$searchText = this.$('input');
+                this.$name = this.$('input');
             },
-            find: function() {
-                alert('find: ' + this.$searchText.val());
+            add: function() {
+                alert('new name: ' + this.$name.val());
             }
         });
 
@@ -708,12 +719,23 @@ example('.rest-example', function($){
             </div>
         </div>
         <div>
-            HTML (<a href='#' class='fetch'>fetch projects</a>):
-            <pre data-code="view.example2.view"></pre>
-            Handlebars #view1:
-            <pre data-code="view.example2.handlebars"></pre>
-            View code:
-            <pre data-code="view.example2.code"></pre>
+            <div class="actions-inline"><a href='#' class='fetch'>fetch projects</a></div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#view_example2_html" data-toggle="tab">HTML</a></li>
+                <li><a href="#view_example2_handlebars" data-toggle="tab">Handlebars</a></li>
+                <li><a href="#view_example2_code" data-toggle="tab">Code</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="view_example2_html">
+                    <pre data-code="view.example2.view"></pre>
+                </div>
+                <div class="tab-pane" id="view_example2_handlebars">
+                    <pre data-code="view.example2.handlebars"></pre>
+                </div>
+                <div class="tab-pane" id="view_example2_code">
+                    <pre data-code="view.example2.code"></pre>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -730,7 +752,7 @@ example('.rest-example', function($){
 </script>
 
 <script type="text/javascript">
-    example(".view-example1", function(){
+    example(".view-example2", function(){
 
     var Project = Backbone.Model.extend({});
 
@@ -772,7 +794,130 @@ example('.rest-example', function($){
 });
 </script>
 
+<div class="slide slide-compact view-example3">
+    <div class="title-inline title-compact">
+        <h1>View</h1>
+        <h3>example - hookuping &amp; rendering</h3>
+    </div>
+    <div>
+        <div class="view-frame html-map" data-name="view.example3.view">
+            <div class="view">
+                <div>
+                    <span class="selected-count"></span>
+                    <button disabled class="delete">Delete</button>
+                    <input type="text" name="name" class="search"/>
+                    <button class="add">Add New</button>
+                </div>
+                <div class="projects"></div>
+            </div>
+        </div>
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#view_example3_html" data-toggle="tab">HTML</a></li>
+                <li><a href="#view_example3_handlebars" data-toggle="tab">Handlebars</a></li>
+                <li><a href="#view_example3_code" data-toggle="tab">Code</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="view_example3_html">
+                    <pre data-code="view.example3.view"></pre>
+                </div>
+                <div class="tab-pane" id="view_example3_handlebars">
+                    <pre data-code="view.example3.handlebars"></pre>
+                </div>
+                <div class="tab-pane" id="view_example3_code">
+                    <pre data-code="view.example3.code"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script type="text/handlebars" class="html-map" data-name="view.example3.handlebars" id="view2">
+    <table class="table table-projects">
+        {{#each this}}
+        <tr data-id="{{id}}" {{#if _checked}}class="selected"{{/if}}>
+        <td><input type="checkbox" {{#if _checked}}checked{{/if}}/></td>
+        <td>{{name}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+<script type="text/javascript">
+    example(".view-example3", function(){
+
+        var Project = Backbone.Model.extend({});
+
+        var ProjectCollection = Backbone.Collection.extend({
+            url: '/projects',
+            model: Project
+        });
+
+        //--start view.example3.code
+        var View = Backbone.View.extend({
+            events: {
+                'change :checkbox': 'toggleSelection',
+                'click .add': 'addProject',
+                'click .delete': 'deleteSelected'
+            },
+            initialize: function(){
+                this.template = Handlebars.compile($('#view2').html());
+                this.collection.on('change reset remove add', this.render, this);
+                this.$projects = this.$('.projects');
+                this.$name = this.$('input[name=name]');
+                this.$selectedCount = this.$('.selected-count');
+                this.$delete = this.$('.delete');
+            },
+            render: function() {
+                var data = this.collection.toJSON();
+                var html = this.template(data);
+                this.$projects.html(html);
+                this.updateSelectedCount();
+                return this;
+            },
+            toggleSelection: function(e){
+                var $input = $(e.target);
+                var id = $input.closest('tr').data('id');
+                var checked = $input.prop('checked');
+                this.collection.get(id).set({_checked: checked});
+            },
+            addProject: function(e) {
+                e.preventDefault();
+                this.collection.create({name: this.$name.val()});
+                this.$name.val('');
+            },
+            deleteSelected: function(e) {
+                e.preventDefault();
+                this.getSelected().forEach(function(i) {
+                    i.destroy();
+                })
+
+            },
+            getSelected: function() {
+                return this.collection.filter(function(i) { return i.get('_checked'); });
+            },
+            updateSelectedCount: function() {
+                var selected = this.getSelected().length;
+                if (selected === 0) {
+                    this.$delete.attr('disabled', 'disabled');
+                } else {
+                    this.$delete.removeAttr('disabled');
+                }
+                if (selected === 0) { selected = ''; }
+                this.$selectedCount.html(selected);
+            }
+        });
+        var projects = new ProjectCollection();
+        var view = new View({el: $('.view-example3 .view'), collection: projects});
+        projects.fetch();
+        //--end
+
+    });
+</script>
+
+<div class="slide">
+    <h1 class="main center">Router-History</h1>
+</div>
 
 </body>
 </html>
