@@ -35,7 +35,7 @@
         <li>Enables structure your web applications</li>
         <li>Best situated for REST based apps</li>
         <li>Doesn't try to solve everything</li>
-        <li>Tiny with minimal dependencies (10.3kB including underscore)</li>
+        <li>Tiny with minimal dependencies (10.3 kB including underscore)</li>
     </ul>
 </div>
 
@@ -91,7 +91,6 @@
         <li>Publish/Subscribe design pattern</li>
         <li>Connects different parts together</li>
         <li>Loose coupling between parts</li>
-        <li>Binding multiple events at once "event1 event2"</li>
         <li>Used in models and collections</li>
     </ul>
 </div>
@@ -132,19 +131,19 @@
             $log.val($log.val() + text + '\n');
         }
         //--start events.example1
-        var broker = _.extend({}, Backbone.Events);
+        var events = _.extend({}, Backbone.Events);
 
         $('.publisher1').click(function(){
-            broker.trigger('event1', "A", 10);
+            events.trigger('event1', "A", 10);
         });
         $('.publisher2').click(function(){
-            broker.trigger('event2', "B");
+            events.trigger('event2', "B");
         });
-        broker.on('event1', function(p1, p2) {
+        events.on('event1', function(p1, p2) {
             log('subscriber1:');
             log('   p1: ' + p1 + ', p2: ' + p2);
         });
-        broker.on('event1 event2', function(p1, p2) {
+        events.on('event1 event2', function(p1, p2) {
             log('subscriber2:');
             log('   p1: ' + p1 + ', p2: ' + p2);
         });
@@ -371,7 +370,7 @@ example('.rest-example', function($){
     </ul>
 </div>
 
-<div class="slide slide-compact">
+<div class="slide">
     <div class="title-inline">
         <h1>Model</h1>
         <h3>methods</h3>
@@ -499,6 +498,7 @@ example('.rest-example', function($){
         <li>Root for accessing your models</li>
         <li>Change notifications</li>
         <li>Model's change notifications</li>
+        <li>Useful underscore functions mixed in</li>
     </ul>
 </div>
 
@@ -1067,7 +1067,6 @@ example('.rest-example', function($){
         //--!
         showSlide: function(slideNumber) {
             this.slideNumber = this.checkSlideNumber(slideNumber);
-            this.$navigator.toggleClass('first-page', slideNumber === 1);
             if (this.presentationMode) {
                 this.$slides.hide();
                 $(this.$slides.get(this.slideNumber-1)).show();
