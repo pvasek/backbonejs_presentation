@@ -648,9 +648,10 @@ example('.rest-example', function($){
     </div>
     <ul>
         <li><b>initialize([options])</b> - it is called after view is created, can be used for custom parameter initialization</li>
-        <li><b>setElement(element)</b> - sets new element to el property and updated its jQuery representation ($el)</li>
-        <li><b>render()</b> - can render element's content, should return view</li>
-        <li><b>remove()</b> - removes view element from DOM and stop listening to events</li>
+        <li><b>setElement(element)</b> - sets el, $el</li>
+        <li><b>render()</b> - renders element's content</li>
+        <li><b>remove()</b> - removes view from DOM and unsubscribes events</li>
+        <li><b>$(selector)</b> - $el.find(selector) shortcut</li>
     </ul>
 </div>
 
