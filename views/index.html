@@ -88,9 +88,10 @@
     </div>
     <ul>
         <li>Publish/Subscribe design pattern</li>
-        <li>Enables connect different parts of the page together</li>
-        <li>The parts need to know only about the event object (broker)</li>
-        <li>You can bind multiple events at once "event1 event2"</li>
+        <li>Connects different parts together</li>
+        <li>Loose coupling between parts</li>
+        <li>Binding multiple events at once "event1 event2"</li>
+        <li>Used in models and collections</li>
     </ul>
 </div>
 
@@ -100,9 +101,9 @@
         <h3>methods</h3>
     </div>
     <ul>
-        <li>on(event, callback, [context]) - subscribes to an event</li>
-        <li>off([event], [callback], [context]) - unsubscribes from an event</li>
-        <li>trigger(event, [param1], [param2], ...) - triggers the an event</li>
+        <li>on(event, callback, [context])</li>
+        <li>off([event], [callback], [context])</li>
+        <li>trigger(event, [param1], [param2], ...)</li>
         <li>listenTo/stopListening similar to on/off but it is bound to listener</li>
     </ul>
 </div>
@@ -211,17 +212,31 @@
 </script>
 
 <div class="slide">
-    <h1 class="main center">REST</h1>
+    <h1>Model & Collection</h1>
+    <ul>
+        <li>Entities on the client</li>
+        <li>Load and save your entities from/to the server
+            <ul>
+                <li>Use Backbone.sync method which uses RESTful web API</li>
+                <li>Can be replaced by anything you want</li>
+            </ul>
+        </li>
+        <li>Extend from Backbone.Event to support change notifications</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1 class="main main-small center">RESTful web API</h1>
     <h2 class="center">Recapitulation</h2>
 </div>
 
 <div class="slide">
     <div class="title-inline">
-        <h1>REST</h1>
+        <h1>RESTful web API</h1>
     </div>
     <ul>
-        <li>Representational state transfer</li>
-        <li>Use HTTP verbs to distinguish what to do
+        <li>Entities as resources</li>
+        <li>Use URI and HTTP verbs to distinguish what to do
             <ul>
                 <li>GET</li>
                 <li>POST</li>
@@ -234,12 +249,12 @@
 
 <div class="slide">
     <div class="title-inline">
-        <h1>REST</h1>
+        <h1>RESTful web API</h1>
         <h3>Verbs</h3>
     </div>
     <div>
         <table class="table table-info">
-            <tr><th>Verb</th><th>Url</th><th>Description</th></tr>
+            <tr><th>Verb</th><th>URI</th><th>Description</th></tr>
             <tr><td>GET</td><td>/resource</td><td>returns list of all resources</td></tr>
             <tr><td>GET</td><td>/resource/id</td><td>returns the particular resource</td></tr>
             <tr><td>POST</td><td>/resource</td><td>adds a new resource</td></tr>
@@ -251,7 +266,7 @@
 
 <div class="slide rest-example">
     <div class="title-inline">
-        <h1>REST</h1>
+        <h1>RESTful web API</h1>
         <h3>example</h3>
     </div>
     <div>
@@ -317,32 +332,18 @@ example('.rest-example', function($){
 });
 </script>
 
-<div class="slide">
-    <h1>Model & Collection</h1>
-    <ul>
-        <li>Representation of entities and entity lists on the client</li>
-        <li>Load and save your entities from/to the server
-            <ul>
-                <li>Use Backbone.sync method</li>
-                <li>Can be replaced by anything you want</li>
-            </ul>
-        </li>
-        <li>Extend from Backbone.Event to support notifications</li>
-    </ul>
-</div>
-
-<div class="slide">
+<div class="slide slide-compact">
     <div class="title-inline">
-        <h1>REST</h1>
+        <h1>RESTful web API</h1>
         <h3>in Backbone.js</h3>
     </div>
     <div>
         <table class="table table-info">
-            <tr><th>Verb</th><th>Url</th><th>Backbone way</th></tr>
+            <tr><th>Verb</th><th>URI</th><th>Backbone way</th></tr>
             <tr><td>GET</td><td>/resource</td><td>collection.fetch()</td></tr>
             <tr><td>GET</td><td>/resource/id</td><td>model.fetch()</td></tr>
-            <tr><td>POST</td><td>/resource</td><td>model.save()</td></tr>
-            <tr><td>PUT</td><td>/resources/id</td><td>model.save(), collection.create()</td></tr>
+            <tr><td>POST</td><td>/resource</td><td>model.save(), collection.create()</td></tr>
+            <tr><td>PUT</td><td>/resources/id</td><td>model.save()</td></tr>
             <tr><td>DELETE</td><td>/resource/id</td><td>model.destroy()</td></tr>
         </table>
     </div>
@@ -352,30 +353,30 @@ example('.rest-example', function($){
     <h1 class="main center">Model</h1>
 </div>
 
-<div class="slide slide-compact">
+<div class="slide">
     <h1>Model</h1>
     <ul>
-        <li>Has attributes object for storing attribute values</li>
-        <li>That enables notifying about attribute changes</li>
-        <li>Easy to find which attributes has been changed during the last change</li>
-        <li>For retrieving full list of attributes use toJSON()</li>
+        <li>Attributes object</li>
+        <li>Change notifications</li>
+        <li>Default attributes</li>
         <li>Predefined validation method</li>
-        <li>Should be extended for your business methods</li>
+        <li>Last changed attributes</li>
+        <li>YOUR business methods</li>
     </ul>
 </div>
 
-<div class="slide model-example">
+<div class="slide slide-compact">
     <div class="title-inline">
         <h1>Model</h1>
         <h3>methods</h3>
     </div>
     <ul>
-        <li>Get(property) - for getting property value</li>
-        <li>Set(property,value) - set property value</li>
-        <li>Set(attributes) - setting multiple properties</li>
-        <li class="server-call">Fetch - loads entity attributes from server</li>
-        <li class="server-call">Save([attributes]) - set attributes and save to the server</li>
-        <li class="server-call">Destroy - delete entity from the server</li>
+        <li>get(property)</li>
+        <li>set(property,value, [options])</li>
+        <li>set(attributes, [options])</li>
+        <li class="server-call">fetch()</li>
+        <li class="server-call">save([attributes], [options])</li>
+        <li class="server-call">destroy([options])</li>
     </ul>
 </div>
 
@@ -488,9 +489,10 @@ example('.rest-example', function($){
 <div class="slide">
     <h1>Collection</h1>
     <ul>
-        <li>Collections of your models</li>
-        <li>In most cases this is the root for your resource type.</li>
-        <li>Model's events are triggered for their collection as well.</li>
+        <li>Collection of your models</li>
+        <li>Root for accessing your models</li>
+        <li>Change notifications</li>
+        <li>Model's change notifications</li>
     </ul>
 </div>
 
@@ -500,10 +502,10 @@ example('.rest-example', function($){
         <h3>methods</h3>
     </div>
     <ul>
-        <li>Add - add model to the collection</li>
-        <li>Remove - remove model from the collection</li>
-        <li class="server-call">Fetch - loads models from server</li>
-        <li class="server-call">Create - initialize model, add it to the collection and save it to the server</li>
+        <li>add(models, [options])</li>
+        <li>remove(models, [options])</li>
+        <li class="server-call">fetch([options])</li>
+        <li class="server-call">create(attributes, [options]) - create a new model, add it to the collection and save it to the server</li>
     </ul>
 </div>
 
@@ -613,11 +615,10 @@ example('.rest-example', function($){
     <h1>View</h1>
     <ul>
         <li>Encapsulate part of the page</li>
-        <li>Usually connected to collection or model</li>
-        <li>Knows its root DOM element</li>
-        <li>Supports declarative event binding</li>
+        <li>Connected to collection or model</li>
+        <li>Knows its root element</li>
+        <li>Declarative event binding</li>
         <li>Can render its HTML, hookup to an existing one or combination of both</li>
-        <li>Nothing fancy, no data binding, ...</li>
     </ul>
 </div>
 
@@ -628,7 +629,7 @@ example('.rest-example', function($){
     </div>
     <ul>
         <li><b>el</b> - element where the view is bound to, default value is empty div</li>
-        <li><b>$el</b> - the jQuery object for el</li>
+        <li><b>$el</b> - the jQuery object for element el</li>
         <li><b>collection</b> - assigned collection</li>
         <li><b>model</b> - assigned model</li>
     </ul>
@@ -640,7 +641,7 @@ example('.rest-example', function($){
         <h3>methods</h3>
     </div>
     <ul>
-        <li><b>initialize([options])</b> - it is called after view is created, can be used for custom parameter initilization</li>
+        <li><b>initialize([options])</b> - it is called after view is created, can be used for custom parameter initialization</li>
         <li><b>setElement(element)</b> - sets new element to el property and updated its jQuery representation ($el)</li>
         <li><b>render()</b> - can render element's content, should return view</li>
         <li><b>remove()</b> - removes view element from DOM and stop listening to events</li>
@@ -654,9 +655,9 @@ example('.rest-example', function($){
     </div>
     <ul>
         <li>Declarative event binding</li>
-        <li>events - object where property names are event paths and values are method that should be called</li>
         <li>events: { 'click button.save': 'save' }</li>
-        <li>delegateEvents([events]) - bind to events, usually important only if you override render() method</li>
+        <li>delegateEvents([events]) - bind to events, important if you attach the element to the DOM after the rendering</li>
+        <li>undelegateEvents()</li>
     </ul>
 </div>
 
@@ -928,7 +929,7 @@ example('.rest-example', function($){
     <ul>
         <li>Enables permalinks for your app</li>
         <li>Uses history API (/page1) or fallback to hash fragments (#page1)</li>
-        <li>Router enables mapping routes to the router methods</li>
+        <li>Router maps routes to the router methods</li>
         <li>You need to call Backbone.history.start() after all routes are set up</li>
     </ul>
 </div>
@@ -961,14 +962,22 @@ example('.rest-example', function($){
 <div class="slide">
     <h1>Summary</h1>
     <ul>
-        <li>
-            Model / Collections - your entities on the client with RESTful persistence,
-            uses events for change notification
+        <li>Events - loose coupling for you app</li>
+        <li>Model / Collections
+            <ul>
+                <li>Entities on the client</li>
+                <li>RESTful persistence</li>
+                <li>Events change notifications</li>
+            </ul>
         </li>
         <li>
-            View - your page components usually connected to model/collection
+            View
+            <ul>
+                <li>a logical part of your app</li>
+                <li>works best with connected collection</li>
+            </ul>
         </li>
-        <li>Router / History - a way how to make your back/forward button working again</li>
+        <li>Router / History - url navigation in your app</li>
     </ul>
 </div>
 
@@ -977,7 +986,7 @@ example('.rest-example', function($){
     <ul>
         <li>Split your application/page to smaller pieces => views.</li>
         <li>Views could be isolated enough</li>
-        <li>Views can communicate through event system</li>
+        <li>Views can communicate through event system => loose coupling</li>
         <li>Router manage the main navigation</li>
     </ul>
 </div>
@@ -992,9 +1001,10 @@ example('.rest-example', function($){
         <li>+ Doesn't try to solve everything</li>
         <li>+ No magic, easy to understand</li>
         <li>+ RESTful persistence built in</li>
-        <li>+ views can do anything</li>
+        <li>+ Views can do anything</li>
         <li>- Doesn't try to solve everything</li>
-        <li>- view can contain non-view logic</li>
+        <li>- View can contain non-view logic</li>
+        <li>- Model is heavy object comparing to simple JS object</li>
     </ul>
 </div>
 
@@ -1013,6 +1023,7 @@ example('.rest-example', function($){
 <div class="slide">
     <h1>Pavel Vašek</h1>
     <div class="big-text">
+        <div>ST Software s.r.o.</div>
         <div>pvasek@gmail.com</div>
         <div>Src: <a href="https://github.com/pvasek/backbonejs_presentation">github.com/pvasek/backbonejs_presentation</a></div>
         <div>Slides: <a href="http://backbonepresentation.azurewebsites.net/slides">backbonepresentation.azurewebsites.net/slides</a></div>
