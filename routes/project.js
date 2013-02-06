@@ -38,16 +38,17 @@ exports.put = function(req, res, id) {
 
 exports.post = function(req, res){
     var inputData = _.isArray(req.body) ? req.body : [req.body];
+    var results = [];
     for (var i = 0; i < inputData.length; i++) {
         var newId = _.max(_.map(data, function(item) { return item.id; }));
-        var item = inputData[i];
-        item.id = newId + 1;
+        var item = _.extend({id: newId + 1}, inputData[i]);
+        results.push(item);
         data.push(item);
     }
-    if (inputData.length === 1 ) {
-        return res.json(inputData[0]);
+    if (results.length === 1 ) {
+        res.json(results[0]);
     } else {
-        res.json(inputData);
+        res.json(results);
     }
 };
 

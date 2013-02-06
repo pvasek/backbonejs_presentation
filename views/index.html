@@ -17,10 +17,11 @@
     <script type='text/javascript' src='/public/javascripts/handlebars.js'></script>
 </head>
 
-<body>
+<body class="mode-presentation">
 
 <div class="navigator">
     <a class="previous"><i class="icon-arrow-left"></i></a>
+    <a class="presentation-mode"><i class="icon-film"></i></a>
     <a class="next"><i class="icon-arrow-right"></i></a>
 </div>
 <div class="slide">
@@ -286,7 +287,8 @@
 <script type="text/javascript">
 example('.rest-example', function($){
     var $textarea = $('textarea');
-    $('.get').on('click', function(){
+    $('.get').on('click', function(e){
+        e.preventDefault();
         var opt = {
             url: '/projects',
             type: 'get'
@@ -296,7 +298,8 @@ example('.rest-example', function($){
                     $textarea.val(JSON.stringify(data));
                 });
     });
-    $('.get1').on('click', function(){
+    $('.get1').on('click', function(e){
+        e.preventDefault();
         var opt = {
             url: '/projects/1',
             type: 'get'
@@ -306,7 +309,8 @@ example('.rest-example', function($){
                 $textarea.val(JSON.stringify(data));
             });
     });
-    $('.put1').on('click', function(){
+    $('.put1').on('click', function(e){
+        e.preventDefault();
         var opt = {
             url: '/projects/1',
             type: 'put',
@@ -315,7 +319,8 @@ example('.rest-example', function($){
         };
         jQuery.ajax(opt);
     });
-    $('.post').on('click', function(){
+    $('.post').on('click', function(e){
+        e.preventDefault();
         var opt = {
             url: '/projects',
             type: 'post',
@@ -326,7 +331,8 @@ example('.rest-example', function($){
             $textarea.val(JSON.stringify(data));
         });
     });
-    $('.clear').on('click', function(){
+    $('.clear').on('click', function(e){
+        e.preventDefault();
         $textarea.val('');
     });
 });
@@ -771,7 +777,7 @@ example('.rest-example', function($){
         events: {
             'change :checkbox': 'toggleSelection'
         },
-        initialize: function(){
+        initialize: function(options){
             this.template = Handlebars.compile($('#view1').html());
             this.collection.on('change reset', this.render, this);
         },
@@ -982,7 +988,7 @@ example('.rest-example', function($){
 </div>
 
 <div class="slide">
-    <h1>Why it is working?</h1>
+    <h1>Why is it working?</h1>
     <ul>
         <li>Split your application/page to smaller pieces => views.</li>
         <li>Views could be isolated enough</li>
@@ -1026,7 +1032,7 @@ example('.rest-example', function($){
         <div>ST Software s.r.o.</div>
         <div>pvasek@gmail.com</div>
         <div>Src: <a href="https://github.com/pvasek/backbonejs_presentation">github.com/pvasek/backbonejs_presentation</a></div>
-        <div>Slides: <a href="http://backbonejs.azurewebsites.net/slides">backbonejs.azurewebsites.net/slides</a></div>
+        <div>Slides: <a href="http://backbonejs.azurewebsites.net">backbonejs.azurewebsites.net</a></div>
     </div>
 </div>
 
@@ -1037,11 +1043,14 @@ example('.rest-example', function($){
             this.app = this.options.app;
             this.$slides = $('.slide');
             this.$navigator = $('.navigator');
+            this.presentationMode = true;
             this.showSlide(1);
+            this.hideNavigator();
         },
         events: {
             'click .next': 'nextSlide',
             'click .previous': 'previousSlide',
+            'click .presentation-mode': 'presentation',
             'keydown': 'keyDown'
         },
         nextSlide: function(){
@@ -1058,9 +1067,14 @@ example('.rest-example', function($){
         //--!
         showSlide: function(slideNumber) {
             this.slideNumber = this.checkSlideNumber(slideNumber);
-            this.$slides.hide();
-            $(this.$slides.get(this.slideNumber-1)).show();
             this.$navigator.toggleClass('first-page', slideNumber === 1);
+            if (this.presentationMode) {
+                this.$slides.hide();
+                $(this.$slides.get(this.slideNumber-1)).show();
+            } else {
+                var $slide = $(this.$slides.get(this.slideNumber-1));
+                $('body').animate({scrollTop: $slide.offset().top}, 400);
+            }
         },
         checkSlideNumber: function(slideNumber) {
             if (slideNumber > this.$slides.length) {
@@ -1071,7 +1085,7 @@ example('.rest-example', function($){
             return slideNumber;
         },
         keyDown: function(e) {
-            if (e.metaKey) {
+            if (e.metaKey || e.ctrlKey) {
                 if (e.keyCode === 40) {
                     e.preventDefault();
                     this.nextSlide();
@@ -1080,6 +1094,16 @@ example('.rest-example', function($){
                     this.previousSlide();
                 }
             }
+        },
+        presentation: function() {
+            this.presentationMode = !this.presentationMode;
+            $('body').toggleClass('mode-presentation', this.presentationMode);
+            $('body').toggleClass('mode-normal', !this.presentationMode);
+            this.$slides.show();
+            this.showSlide(this.slideNumber);
+        },
+        hideNavigator: function() {
+            $('.navigator').addClass('navigator-hidden');
         }
         //--!
     });

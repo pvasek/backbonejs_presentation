@@ -8,7 +8,6 @@
 }
 
 body {
-//    background-color: #eee;
     background-color: white;
     font-family: Armata;
     font-size: 25px;
@@ -106,18 +105,24 @@ p {
 
 .navigator {
   position: fixed;
-  top: 20px;
-  right: 40px;
+  top: 5px;
+  right: 5px;
   background-color: #f8f8f8;
   border: 1px solid #ccc;
   .border-radius(5px);
   cursor: pointer;
-  opacity: 0;
+  opacity: 1;
   -webkit-transition: opacity 0.4s ease-in-out;
   -moz-transition: opacity 0.4s ease-in-out;
   -o-transition: opacity 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out;
 
+  &.navigator-hidden {
+    opacity: 0;
+    transition: opacity 3s linear;
+    -webkit-transition: opacity 3s linear;
+    -moz-transition: opacity 3s linear;
+  }
   &.first-page {
     opacity: 1;
   }
@@ -126,12 +131,13 @@ p {
   }
   a {
     display: inline-block;
-    padding: 10px 30px;
+    padding: 10px 10px;
     text-decoration: none;
     color: #555;
     line-height: 3px;
   }
 }
+
 
 .title-inline {
   .clearfix();
@@ -287,3 +293,4 @@ tr.selected {
     padding: 20px 0;
   }
 }
+
